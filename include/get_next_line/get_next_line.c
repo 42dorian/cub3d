@@ -97,7 +97,8 @@ char	*get_next_line(int fd)
 	tmp = ft_substr_gnl(file, 0, find_new_line(file));
 	if (!tmp)
 		return (free_and_null(&file));
-	str = ft_substr_gnl(file, find_new_line(tmp), ft_strlen_gnl(file) - ft_strlen_gnl(tmp));
+	str = ft_substr_gnl(file, find_new_line(tmp), ft_strlen_gnl(file)
+			- ft_strlen_gnl(tmp));
 	free_and_null(&file);
 	if (!str)
 		return (free_and_null(&tmp));
