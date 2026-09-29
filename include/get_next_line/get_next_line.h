@@ -25,10 +25,10 @@ char	*read_loop(int fd, char *file);
 int		is_newline(char *s);
 int		find_new_line(char *str);
 char	*join_free(char *s1, char *s2);
-char	*ft_substr(char const *s, unsigned int start, size_t len);
+char	*ft_substr_gnl(char const *s, unsigned int start, size_t len);
 char	*free_and_null(char **s);
-char	*ft_strjoin(char *s1, char *s2);
-char	*ft_strdup(char *src);
-int		ft_strlen(const char *s);
+char	*ft_strjoin_gnl(char *s1, char *s2);
+char	*ft_strdup_gnl(char *src);
+int		ft_strlen_gnl(const char *s);
 
 #endif

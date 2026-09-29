@@ -16,7 +16,7 @@ char	*join_free(char *s1, char *s2)
 {
 	char	*tmp;
 
-	tmp = ft_strjoin(s1, s2);
+	tmp = ft_strjoin_gnl(s1, s2);
 	if (!tmp)
 		return (NULL);
 	return (tmp);
@@ -94,37 +94,16 @@ char	*get_next_line(int fd)
 		return (NULL);
 	if (*file == '\0')
 		return (free_and_null(&file));
-	tmp = ft_substr(file, 0, find_new_line(file));
+	tmp = ft_substr_gnl(file, 0, find_new_line(file));
 	if (!tmp)
 		return (free_and_null(&file));
-	str = ft_substr(file, find_new_line(tmp), ft_strlen(file) - ft_strlen(tmp));
+	str = ft_substr_gnl(file, find_new_line(tmp), ft_strlen_gnl(file) - ft_strlen_gnl(tmp));
 	free_and_null(&file);
 	if (!str)
 		return (free_and_null(&tmp));
-	file = ft_strdup(str);
+	file = ft_strdup_gnl(str);
 	free_and_null(&str);
 	if (!file)
 		return (free_and_null(&file), free_and_null(&tmp));
 	return (tmp);
-}
-
-// #include "get_next_line_utils.c"
-#include <fcntl.h>
-#include <stdio.h>
-
-int	main(void)
-{
-	int fd;
-	char *s;
-
-	fd = open("test.txt", O_RDONLY);
-	while ((s = get_next_line(fd)))
-	{
-		printf("%s", s);
-		free_and_null(&s);
-	}
-	s = get_next_line(fd);
-	printf("%s", s);
-	free_and_null(&s);
-	close(fd);
 }
