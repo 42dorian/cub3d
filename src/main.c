@@ -6,7 +6,7 @@
 /*   By: dabdulla <dabdulla@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/29 15:18:40 by dabdulla          #+#    #+#             */
-/*   Updated: 2026/09/29 15:18:41 by dabdulla         ###   ########.fr       */
+/*   Updated: 2026/10/06 10:47:13 by dabdulla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 int	main(int argc, char **argv)
 {
-	(void)argc;
-	(void)argv;
+	t_cub cub;
+
+	ft_bzero(&cub, sizeof(t_cub));
 	return (0);
 }

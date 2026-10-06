@@ -18,4 +18,16 @@
 # include "../include/libft/libft.h"
 # include "../include/get_next_line/get_next_line.h"
 
+typedef struct	s_map
+{
+
+}				t_map;
+
+// all structs u create go here, my idea was that we don't have to allocate a lot of memory in this program
+// so we can just assign values initially and work with that.
+typedef struct	s_cub
+{
+	t_map		map;
+}				t_cub;
+
 #endif
