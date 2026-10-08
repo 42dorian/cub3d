@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dabdulla <dabdulla@student.42vienna.com    +#+  +:+       +#+        */
+/*   By: bguhty <bguhty@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/23 19:09:53 by dabdulla          #+#    #+#             */
-/*   Updated: 2025/11/04 13:23:11 by dabdulla         ###   ########.fr       */
+/*   Updated: 2026/10/07 16:42:44 by bguhty           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,12 +94,13 @@ char	*ft_substr_gnl(char const *s, unsigned int start, size_t len)
 	return (str);
 }
 
-char	*free_and_null(char **s)
+char	*free_and_null(char **s, int *exit_code)
 {
 	if (*s)
 	{
 		free(*s);
 		*s = NULL;
 	}
+	exit_code = 1;
 	return (NULL);
 }

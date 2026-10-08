@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dabdulla <dabdulla@student.42vienna.com    +#+  +:+       +#+        */
+/*   By: bguhty <bguhty@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/23 19:09:55 by dabdulla          #+#    #+#             */
-/*   Updated: 2025/11/06 16:38:59 by dabdulla         ###   ########.fr       */
+/*   Updated: 2026/10/07 16:44:21 by bguhty           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,12 +61,12 @@ char	*read_loop(int fd, char *file)
 
 	buffer = malloc(BUFFER_SIZE + 1);
 	if (!buffer)
-		return (free_and_null(&file));
+		return (free_and_null(&file, &r));
 	if (!file)
 	{
 		file = malloc(1);
 		if (!file)
-			return (free_and_null(&buffer));
+			return (free_and_null(&buffer, &r));
 		file[0] = '\0';
 	}
 	r = 1;
@@ -78,33 +78,33 @@ char	*read_loop(int fd, char *file)
 		buffer[r] = '\0';
 		file = join_free(file, buffer);
 	}
-	return (free_and_null(&buffer), file);
+	return (free_and_null(&buffer, &r), file);
 }
 
-char	*get_next_line(int fd)
+char	*get_next_line(int fd, int *exit_code)
 {
 	static char	*file;
 	char		*tmp;
 	char		*str;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
-		return (free_and_null(&file));
+		return (free_and_null(&file, &exit_code));
 	file = read_loop(fd, file);
 	if (!file)
 		return (NULL);
 	if (*file == '\0')
-		return (free_and_null(&file));
+		return (free_and_null(&file, &exit_code));
 	tmp = ft_substr_gnl(file, 0, find_new_line(file));
 	if (!tmp)
-		return (free_and_null(&file));
+		return (free_and_null(&file, &exit_code));
 	str = ft_substr_gnl(file, find_new_line(tmp), ft_strlen_gnl(file)
 			- ft_strlen_gnl(tmp));
-	free_and_null(&file);
+	free_and_null(&file, &exit_code);
 	if (!str)
-		return (free_and_null(&tmp));
+		return (free_and_null(&tmp, &exit_code));
 	file = ft_strdup_gnl(str);
-	free_and_null(&str);
+	free_and_null(&str, &exit_code);
 	if (!file)
-		return (free_and_null(&file), free_and_null(&tmp));
+		return (free_and_null(&file, &exit_code), free_and_null(&tmp, &exit_code));
 	return (tmp);
 }
