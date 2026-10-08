@@ -6,7 +6,7 @@
 /*   By: bguhty <bguhty@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/23 19:09:53 by dabdulla          #+#    #+#             */
-/*   Updated: 2026/10/07 16:42:44 by bguhty           ###   ########.fr       */
+/*   Updated: 2026/10/08 21:34:27 by bguhty           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,16 @@ char	*free_and_null(char **s, int *exit_code)
 		free(*s);
 		*s = NULL;
 	}
-	exit_code = 1;
+	*exit_code = 1;
+	return (NULL);
+}
+
+char	*valid_free_and_null(char **s)
+{
+	if (*s)
+	{
+		free(*s);
+		*s = NULL;
+	}
 	return (NULL);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dabdulla <dabdulla@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bguhty <bguhty@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 15:59:08 by dabdulla          #+#    #+#             */
-/*   Updated: 2025/10/11 09:32:32 by dabdulla         ###   ########.fr       */
+/*   Updated: 2026/10/08 22:49:14 by bguhty           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static int	count_words(char const *s, char c)
 	return (count);
 }
 
-static void	free_strs(char **strs, int i)
+void	free_strs(char **strs, int i)
 {
 	while (i >= 0)
 	{

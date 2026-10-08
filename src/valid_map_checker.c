@@ -6,12 +6,11 @@
 /*   By: bguhty <bguhty@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/07 10:23:12 by bguhty            #+#    #+#             */
-/*   Updated: 2026/10/08 14:44:31 by bguhty           ###   ########.fr       */
+/*   Updated: 2026/10/08 23:37:07 by bguhty           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-#include "../include/libft/ft_strlen.c"
 
 int is_null_terminator(char letter)
 {
@@ -78,7 +77,7 @@ int any_standing_alone(char **map, int *exit_code)
         while (map[row][column])
         {
             if (sorrund_checker(map, row, column))
-                return (exit_code = 3, 1);
+                return (*exit_code = 3, 1);
             column++;
         }
         column = 0;
@@ -101,7 +100,7 @@ int map_len(char **map)
 
 int is_white_space(char letter)
 {
-    if (letter <= CARRIAGE_RET && letter >= BACKSPACE || letter == SPACE)
+    if ((letter <= CARRIAGE_RET && letter >= BACKSPACE) || letter == SPACE)
         return (1);
     return (0);
 }
@@ -145,9 +144,7 @@ int is_line_valid(char *line)
 int first_and_last_line(char **map)
 {
     int last;
-    int i;
-    
-    i = 0;
+
     last = map_len(map) - 1;
     if (last == -1)
         return (0);
@@ -220,15 +217,73 @@ int sorrunded_by_walls(char **map, int *exit_code)
     return (1);
 }
 
+int is_character(char letter)
+{
+    if (letter == W || letter == S || letter == N || letter == E)
+        return (1);
+    return (0);
+}
+
+int get_x_of_start(char **map)
+{
+    int i;
+    int j;
+
+    i = 0;
+    j = 0;
+    while (map[i])
+    {
+        while (map[i][j])
+        {
+            if (is_character(map[i][j]))
+                return (j);
+            j++;
+        }
+        j = 0;
+        i++;
+    }
+    return (-1);
+}
+
+int get_y_of_start(char **map)
+{
+    int i;
+    int j;
+
+    i = 0;
+    j = 0;
+    while (map[i])
+    {
+        while (map[i][j])
+        {
+            if (is_character(map[i][j]))
+                return (i);
+            j++;
+        }
+        j = 0;
+        i++;
+    }
+    return (-1);
+}
+
 int map_is_valid(char **map, int *exit_code)
 {
-    if (characters_check(map, exit_code))
+    char    **fake_map;
+    int     x;
+    int     y;
+    
+    x = get_x_of_start(map);
+    y = get_y_of_start(map);
+    if (!characters_check(map, exit_code))
         return (0);
     if (any_standing_alone(map, exit_code))
         return (0);
     convert_spaces_to_zeroes(map);
-    if (!sorrunded_by_walls(map, exit_code))
+    fake_map = copy_map(map);
+    if (!fake_map)
         return (0);
+    if (!flood_fill(fake_map, y, x))
+        return (*exit_code = 4, 0);
     return (1);
 }
 
@@ -258,12 +313,18 @@ int valid_char(char letter, int *news, int *exit_code)
     if (letter == N || letter == S || letter == W || letter == E)
     {
         if (*news)
-            return (*exit_code = 1, 0);
+        {
+            *exit_code = 1;
+            return (0);
+        }
         else
             *news = letter;
     }
-    if (letter != ONE || letter != ZERO || !is_white_space(letter))
-        return (*exit_code = 2, 0);
+    else if (letter != ONE && letter != ZERO && !is_white_space(letter))
+    {
+        *exit_code = 2;
+        return (0);
+    }
     return (1);
 }
 
@@ -287,12 +348,10 @@ int characters_check(char **map, int *exit_code)
         j = 0;
         i++;
     }
-    if (news)
-        return (0);
     return (1);
 }
 
-void    display_invalid_map_error_message(int exit_code)
+void    display_invalid_map_message(int exit_code)
 {
     if (exit_code == 1)
         write(2, "Multiple starting positions!\n", 29);
@@ -301,19 +360,20 @@ void    display_invalid_map_error_message(int exit_code)
     else if (exit_code == 3)
         write (2, "Additional island(s)!\n", 22);
     else if (exit_code == 4)
-        write (2, "The island is not completely surrounded by walls!\n", 49);
+        write (2, "The island is not completely surrounded by walls!\n", 50);
 }
 
-int main(int args, char **argv)
+int main()
 {
-    int i;
     int exit_code;
-
-    i = 0;
+    t_map *map;
+    char    **read_file;
+    const char    *file;
+    file = "cub_test.txt";
+    read_file = parsing_from_file(file);
+    map = creating_t_cub_struct(read_file);
     exit_code = 0;
-    while (i < map_len(argv))
-        printf("%s\n", argv[i++]);
-    if (!map_is_valid(argv, &exit_code))
+    if (!map_is_valid(map->map, &exit_code))
         return (display_invalid_map_message(exit_code), 1);
     return (0);
 }

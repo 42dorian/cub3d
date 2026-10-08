@@ -6,11 +6,12 @@
 /*   By: bguhty <bguhty@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/23 19:09:55 by dabdulla          #+#    #+#             */
-/*   Updated: 2026/10/07 16:44:21 by bguhty           ###   ########.fr       */
+/*   Updated: 2026/10/08 21:37:03 by bguhty           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+#include <stdio.h>
 
 char	*join_free(char *s1, char *s2)
 {
@@ -88,23 +89,23 @@ char	*get_next_line(int fd, int *exit_code)
 	char		*str;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
-		return (free_and_null(&file, &exit_code));
+		return (free_and_null(&file, exit_code));
 	file = read_loop(fd, file);
 	if (!file)
 		return (NULL);
 	if (*file == '\0')
-		return (free_and_null(&file, &exit_code));
+		return (valid_free_and_null(&file));
 	tmp = ft_substr_gnl(file, 0, find_new_line(file));
 	if (!tmp)
-		return (free_and_null(&file, &exit_code));
+		return (free_and_null(&file, exit_code));
 	str = ft_substr_gnl(file, find_new_line(tmp), ft_strlen_gnl(file)
 			- ft_strlen_gnl(tmp));
-	free_and_null(&file, &exit_code);
+	valid_free_and_null(&file);
 	if (!str)
-		return (free_and_null(&tmp, &exit_code));
+		return (free_and_null(&tmp, exit_code));
 	file = ft_strdup_gnl(str);
-	free_and_null(&str, &exit_code);
+	valid_free_and_null(&str);
 	if (!file)
-		return (free_and_null(&file, &exit_code), free_and_null(&tmp, &exit_code));
+		return (free_and_null(&file, exit_code), free_and_null(&tmp, exit_code));
 	return (tmp);
 }

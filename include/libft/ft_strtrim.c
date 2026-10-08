@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dabdulla <dabdulla@student.42vienna.com    +#+  +:+       +#+        */
+/*   By: bguhty <bguhty@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 14:55:00 by dabdulla          #+#    #+#             */
-/*   Updated: 2026/03/26 12:30:42 by dabdulla         ###   ########.fr       */
+/*   Updated: 2026/10/08 22:08:08 by bguhty           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ static int	find_end(char const *s1, char const *set)
 	return (count);
 }
 
-char	*ft_strtrim(char const *s1, char const *set)
+char	*ft_strtrim(char *s1, char const *set)
 {
 	int		size;
 	int		start;
@@ -78,6 +78,7 @@ char	*ft_strtrim(char const *s1, char const *set)
 		return (NULL);
 	ft_memcpy(str, s1 + start, size);
 	str[size] = '\0';
+	free(s1);
 	return (str);
 }
 

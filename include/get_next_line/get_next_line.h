@@ -6,7 +6,7 @@
 /*   By: bguhty <bguhty@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/23 19:09:57 by dabdulla          #+#    #+#             */
-/*   Updated: 2026/10/07 16:43:15 by bguhty           ###   ########.fr       */
+/*   Updated: 2026/10/08 21:35:08 by bguhty           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 # include <unistd.h>
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 41
+#  define BUFFER_SIZE 5
 # endif
 
 char	*get_next_line(int fd, int *exit_code);
@@ -30,6 +30,7 @@ char	*free_and_null(char **s, int *exit_code);
 char	*ft_strjoin_gnl(char *s1, char *s2);
 char	*ft_strdup_gnl(char *src);
 int		ft_strlen_gnl(const char *s);
+char	*valid_free_and_null(char **s);
 
 
 #endif
