@@ -6,7 +6,7 @@
 /*   By: bguhty <bguhty@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/07 10:23:12 by bguhty            #+#    #+#             */
-/*   Updated: 2026/10/08 23:37:07 by bguhty           ###   ########.fr       */
+/*   Updated: 2026/10/12 20:50:17 by bguhty           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -348,6 +348,11 @@ int characters_check(char **map, int *exit_code)
         j = 0;
         i++;
     }
+    if (!news)
+    {
+        *exit_code = 5;
+        return (0);
+    }
     return (1);
 }
 
@@ -361,6 +366,8 @@ void    display_invalid_map_message(int exit_code)
         write (2, "Additional island(s)!\n", 22);
     else if (exit_code == 4)
         write (2, "The island is not completely surrounded by walls!\n", 50);
+    else if (exit_code == 5)
+        write(2, "No starting position spcified!\n", 31);
 }
 
 int main()
