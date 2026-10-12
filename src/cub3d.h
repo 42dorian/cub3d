@@ -6,7 +6,7 @@
 /*   By: bguhty <bguhty@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/29 15:18:34 by dabdulla          #+#    #+#             */
-/*   Updated: 2026/10/08 23:31:14 by bguhty           ###   ########.fr       */
+/*   Updated: 2026/10/12 23:48:05 by bguhty           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,5 +66,8 @@ int     is_safe_spot(char letter);
 int     is_new_line(char letter);
 int     get_first_map_len(char **read_file);
 int     get_second_map_len(char **read_file);
+void    display_invalid_map_message(int exit_code);
+int		map_is_valid(char **map, int *exit_code);
+void    split_clean_up(char **split_line);
 
 #endif

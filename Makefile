@@ -1,7 +1,8 @@
 NAME = cub3d
 
 SOURCE =	src/valid_map_checker.c \
-			src/parsing_cub_file.c 
+			src/parsing_cub_file.c \
+			src/main.c
 
 CFLAGS = -Wall -Wextra -Werror -g
 

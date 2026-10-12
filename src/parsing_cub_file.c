@@ -6,7 +6,7 @@
 /*   By: bguhty <bguhty@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/07 15:06:16 by bguhty            #+#    #+#             */
-/*   Updated: 2026/10/08 23:27:39 by bguhty           ###   ########.fr       */
+/*   Updated: 2026/10/12 23:53:45 by bguhty           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ char    *create_white_space_set()
     
     counter = BACKSPACE;
     set_index = 0;
-    set = ft_calloc(sizeof(char), 9);
+    set = ft_calloc(sizeof(char), 8);
     if (!set)
         return (NULL);
     while (counter <= CARRIAGE_RET)
@@ -89,9 +89,14 @@ int    trim_the_read_file(char **read_file)
     {
         read_file[i] = ft_strtrim(read_file[i], set);
         if (!read_file[i])
+        {
+            free_strs(read_file, i);
+            free(set);
             return (0);
+        }
         i++;
     }
+    free(set);
     return (1);
 }
 
@@ -251,8 +256,11 @@ int     get_first_map_len(char **read_file)
     
     len = 0;
     last_index = get_len_of_read_file(read_file) - 1;
-    while (!is_new_line(read_file[last_index--][0]))
+    while (!is_new_line(read_file[last_index][0]) && last_index != 0)
+    {
+        last_index--;
         len++;
+    }
     return (len);
 }
 
@@ -307,7 +315,7 @@ char    **get_map(char **read_file)
     if (!map)
         return (NULL);
     map[len--] = NULL;
-    while (ft_strncmp(read_file[last_index], "", 1))
+    while (len >= 0)
     {
         map[len] = normal_copy(read_file[last_index]);
         if (!map[len])
@@ -399,7 +407,8 @@ t_map   *creating_t_cub_struct(char **read_file)
     if (!read_file)
         return (NULL);
     if (!get_struct_values(map_struct, read_file))
-        return (NULL);
+        return (split_clean_up(read_file), NULL);
+    split_clean_up(read_file);
     return (map_struct);
 }
 
@@ -416,7 +425,7 @@ char    **copy_map(char **old_map)
     int     i;
 
     i = 0;
-    new_map = ft_calloc(sizeof(char *), get_map_len(old_map));
+    new_map = ft_calloc(sizeof(char *), get_map_len(old_map) + 1);
     if (!new_map)
         return (NULL);
     while (old_map[i])
