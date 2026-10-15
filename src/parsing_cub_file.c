@@ -6,7 +6,7 @@
 /*   By: bguhty <bguhty@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/07 15:06:16 by bguhty            #+#    #+#             */
-/*   Updated: 2026/10/12 23:53:45 by bguhty           ###   ########.fr       */
+/*   Updated: 2026/10/15 12:52:17 by bguhty           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -264,13 +264,13 @@ int     get_first_map_len(char **read_file)
     return (len);
 }
 
-int     get_second_map_len(char **read_file)
+int     get_map_len_from_file(char **read_file)
 {
     int     last_index;
     int     len;
     
     len = 0;
-    last_index = get_len_of_read_file(read_file) - 1;
+    last_index = get_last_index(read_file);
     while (ft_strncmp(read_file[last_index--], "", 1))
         len++;
     return (len);
@@ -309,7 +309,7 @@ char    **get_map(char **read_file)
     int     last_index;
     int     len;
     
-    len = get_second_map_len(read_file);
+    len = get_map_len_from_file(read_file);
     last_index = get_len_of_read_file(read_file) - 1;
     map = ft_calloc(sizeof(char *),  len + 1);
     if (!map)
@@ -319,7 +319,7 @@ char    **get_map(char **read_file)
     {
         map[len] = normal_copy(read_file[last_index]);
         if (!map[len])
-            return (free_map(map, get_second_map_len(read_file), len), NULL);
+            return (free_map(map, get_map_len_from_file(read_file), len), NULL);
         len--;
         last_index--;
     }
@@ -390,8 +390,118 @@ char    **trim_empty_lines(char **read_file)
         i++;
     }
     trimmed_read_line[trimmed_index] = NULL;
-    split_clean_up(read_file);
+    //split_clean_up(read_file);
     return (trimmed_read_line);
+}
+
+int     get_last_index(char **read_file)
+{
+    int last_index;
+    
+    last_index = get_len_of_read_file(read_file) - 1;
+    while (!read_file[last_index][0])
+        last_index--;
+    return (last_index);
+}
+
+const char    **allocate_texture_set()
+{
+    const char  **texture_set;
+    int         i;
+    
+    i = 0;
+    texture_set = ft_calloc(sizeof(char *), 7);
+    if (!texture_set)
+        return (NULL);
+    while (i < 6)
+    {
+        if (i < 4)
+        {
+            texture_set[i] = ft_calloc(sizeof(char), 3);
+            if (!texture_set[i])
+                return (free_strs((char **)texture_set, i), NULL);
+        }
+        else
+        {
+            texture_set[i] = ft_calloc(sizeof(char), 2);
+            if (!texture_set[i])
+                return (free_strs((char **)texture_set, i), NULL);
+        }
+        i++;
+    }
+    texture_set[i] = NULL;
+    return (texture_set);
+}
+
+const char    **create_texture_set()
+{
+    const char **texture_set;
+    
+    texture_set = allocate_texture_set();
+    if (!texture_set)
+        return (NULL);
+    texture_set[0] = "NO";
+    texture_set[1] = "SO";
+    texture_set[2] = "WE";
+    texture_set[3] = "EA";
+    texture_set[4] = "F";
+    texture_set[5] = "C";
+    return (texture_set);
+}
+
+int     find_index_of(char **read_file, const char *word)
+{
+    int len;
+    int i;
+    
+    i = 0;
+    len = ft_strlen(word);
+    while (read_file[i])
+    {
+        if (!ft_strncmp(word, read_file[i], len))
+            return (i);
+        i++;
+    }
+    return (-1);
+}
+
+int     get_first_index(char **read_file)
+{
+    int         i;
+    int         biggest_index;
+    const char  **texture_set;
+    
+    i = 0;
+    biggest_index = 0;
+    texture_set = create_texture_set();
+    if (!texture_set)
+        return (-1);
+    while (i < 6)
+    {
+        if (find_index_of(read_file, texture_set[i]) > biggest_index)
+            biggest_index = find_index_of(read_file, texture_set[i]);
+        i++;
+    }
+    return (biggest_index);
+}
+
+int     is_valid_input(char **read_file)
+{
+    int first_index;
+    int last_index;
+    last_index = get_last_index(read_file);
+    first_index = get_first_index(read_file) + 1;
+    if (first_index == -1)
+        return (0);
+    while (!ft_strlen(read_file[first_index]))
+        first_index++;
+    while (first_index < last_index)
+    {
+        if (!ft_strlen(read_file[first_index]))
+            return (0);
+        first_index++;
+    }
+    return (1);
 }
 
 t_map   *creating_t_cub_struct(char **read_file)
@@ -403,12 +513,13 @@ t_map   *creating_t_cub_struct(char **read_file)
         return (NULL);
     if (!trim_the_read_file(read_file))
         return (NULL);
+    if (!is_valid_input(read_file))
+        return (write(2, "Error\nInvalid input\n", 20), NULL);
     read_file = trim_empty_lines(read_file);
     if (!read_file)
         return (NULL);
     if (!get_struct_values(map_struct, read_file))
-        return (split_clean_up(read_file), NULL);
-    split_clean_up(read_file);
+        return (NULL);
     return (map_struct);
 }
 
@@ -446,7 +557,7 @@ int     flood_fill(char **map, int y, int x)
     height = get_map_len(map);
     if (y < 0 || y > height)
         return (0);
-    if (x < 0 || !map[y][x])
+    if (x > ft_strlen(map[y]) || x < 0 || !map[y][x])
         return (0);
     if (is_safe_spot(map[y][x]))
         return (1);

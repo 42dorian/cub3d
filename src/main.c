@@ -6,7 +6,7 @@
 /*   By: bguhty <bguhty@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/29 15:18:40 by dabdulla          #+#    #+#             */
-/*   Updated: 2026/10/12 23:57:03 by bguhty           ###   ########.fr       */
+/*   Updated: 2026/10/15 12:39:47 by bguhty           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	main()//int args, char **argv)
 	
 	exit_code = 0;
 	if (args != 2)
-		return (1);
+		return (write(2, "Error\nNo map spcified!\n", 13), 1);
     read_file = parsing_from_file(file_name);
 	if (!read_file)
 		return (1);
