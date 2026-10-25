@@ -23,13 +23,20 @@
 # define CARRIAGE_RET 13
 # define SPACE 32
 # define NULL_TERMINATOR 0
+# define WIDTH 1280
+# define HEIGHT 720
 
 # include <unistd.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <fcntl.h>
+# include <mlx.h>
 # include "../include/libft/libft.h"
 # include "../include/get_next_line/get_next_line.h"
+
+typedef struct	s_map t_map;
+typedef struct s_mlx t_mlx;
+typedef struct s_player t_player;
 
 typedef struct	s_map
 {
@@ -42,13 +49,34 @@ typedef struct	s_map
 	char		**map;
 }				t_map;
 
-// all structs u create go here, my idea was that we don't have to allocate a lot of memory in this program
-// so we can just assign values initially and work with that.
+typedef struct s_mlx
+{
+	void *mlx_ptr;
+	void *win_ptr;
+	void *img_ptr;
+	char *addr;
+	int bpp;
+	int line_len;
+	int endian;
+} t_mlx;
+
+typedef struct s_player
+{
+	double pos_x;
+	double pos_y;
+	double dir_x;
+	double dir_y;
+	double plane_x;
+	double plane_y;
+
+}				t_player;
+
 typedef struct	s_cub
 {
-	t_map		map;
+	t_map		*map;
+	t_mlx		mlx;
+	t_player	player;
 }				t_cub;
-
 
 int 	is_white_space(char letter);
 int 	map_len(char **map);

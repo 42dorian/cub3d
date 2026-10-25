@@ -5,8 +5,9 @@ SOURCE =	src/valid_map_checker.c \
 			src/main.c
 
 CFLAGS = -Wall -Wextra -Werror -g
-
+INCLUDES = -I./minilibx-linux -I/opt/X11/include -L./minilibx-linux -lmlx -L/opt/X11/lib -lXext -lX11 -lm
 OBJECTS = $(SOURCE:.c=.o)
+
 
 LIBFT_DIR = include/libft
 GNL_DIR = include/get_next_line
@@ -29,7 +30,7 @@ $(LIBFT):
 	$(CC) $(CFLAGS) -c $< -o $@
 
 $(NAME): $(LIBFT) $(OBJECTS) $(GNL_OBJ)
-	$(CC) $(CFLAGS) $(OBJECTS) $(LIBFT)  $(GNL_OBJ) -o $(NAME)
+	$(CC) $(CFLAGS) $(INCLUDES) $(OBJECTS) $(LIBFT)  $(GNL_OBJ) -o $(NAME)
 
 clean:
 	@make -C $(LIBFT_DIR) clean

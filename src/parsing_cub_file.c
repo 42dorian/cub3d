@@ -16,14 +16,22 @@ int     get_len_of_file(const char *file, int *exit_code)
 {
     int fd;
     int len;
+    char *line;
     
     len = 0;
     fd = open(file, O_RDONLY);
     if (fd == -1)
         return (-1);
-    while (get_next_line(fd, exit_code))
+    while ((line = get_next_line(fd, exit_code)) != NULL)
+    {
+        free(line);
         len++;
+        if (*exit_code)
+            break;
+    }
     close(fd);
+    if (*exit_code)
+        return (-1);
     return (len);
 }
 
