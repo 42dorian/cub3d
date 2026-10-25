@@ -6,7 +6,7 @@
 /*   By: bguhty <bguhty@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/07 10:23:12 by bguhty            #+#    #+#             */
-/*   Updated: 2026/10/12 23:47:57 by bguhty           ###   ########.fr       */
+/*   Updated: 2026/10/15 12:40:15 by bguhty           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -207,8 +207,6 @@ int map_is_valid(char **map, int *exit_code)
     y = get_y_of_start(map);
     if (!characters_check(map, exit_code))
         return (0);
-    // if (any_standing_alone(map, exit_code))
-    //     return (0);
     convert_spaces_to_zeroes(map);
     fake_map = copy_map(map);
     if (!fake_map)
@@ -295,13 +293,13 @@ int characters_check(char **map, int *exit_code)
 void    display_invalid_map_message(int exit_code)
 {
     if (exit_code == 1)
-        write(2, "Multiple starting positions!\n", 29);
+        write(2, "Error\nMultiple starting positions!\n", 35);
     else if (exit_code == 2)
-        write(2, "Invalid character on the board!\n", 32);
+        write(2, "Error\nInvalid character on the board!\n", 38);
     else if (exit_code == 3)
-        write (2, "Additional island(s)!\n", 22);
+        write (2, "Error\nAdditional island(s)!\n", 28);
     else if (exit_code == 4)
-        write (2, "The island is not completely surrounded by walls!\n", 50);
+        write (2, "Error\nThe island is not completely surrounded by walls!\n", 56);
     else if (exit_code == 5)
-        write(2, "No starting position spcified!\n", 31);
+        write(2, "Error\nNo starting position spcified!\n", 37);
 }
