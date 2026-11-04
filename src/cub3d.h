@@ -6,7 +6,7 @@
 /*   By: bguhty <bguhty@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/29 15:18:34 by dabdulla          #+#    #+#             */
-/*   Updated: 2026/10/15 12:37:15 by bguhty           ###   ########.fr       */
+/*   Updated: 2026/11/04 22:06:31 by bguhty           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,5 +70,8 @@ void    display_invalid_map_message(int exit_code);
 int		map_is_valid(char **map, int *exit_code);
 void    split_clean_up(char **split_line);
 int     get_last_index(char **read_file);
+void    print_missing_texture_pack(char *level);
+void    print_multiple_texture_packs(char *level);
+void	t_map_clean_up(t_map *game_board);
 
 #endif
