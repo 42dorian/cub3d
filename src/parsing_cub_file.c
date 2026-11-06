@@ -6,7 +6,7 @@
 /*   By: bguhty <bguhty@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/07 15:06:16 by bguhty            #+#    #+#             */
-/*   Updated: 2026/10/15 12:52:17 by bguhty           ###   ########.fr       */
+/*   Updated: 2026/11/06 15:35:38 by dabdulla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,22 @@
 
 int     get_len_of_file(const char *file, int *exit_code)
 {
+    char *curr;
     int fd;
     int len;
     char *line;
-    
+
     len = 0;
     fd = open(file, O_RDONLY);
     if (fd == -1)
         return (-1);
-    while ((line = get_next_line(fd, exit_code)) != NULL)
+    while (1)
     {
-        free(line);
+        curr = get_next_line(fd, exit_code);
+        if (!curr)
+            break ;
         len++;
-        if (*exit_code)
-            break;
+        free(curr);
     }
     close(fd);
     if (*exit_code)
@@ -35,33 +37,45 @@ int     get_len_of_file(const char *file, int *exit_code)
     return (len);
 }
 
-char    **parsing_from_file(const char *file)
+void    get_lines_from_file(const char *file, char **lines, int *exit_code)
 {
     int fd;
-    int len;
     int i;
-    int exit_code;
-    char **input;
 
+    fd = 0;
     i = 0;
-    exit_code = 0;
-    len = get_len_of_file(file, &exit_code);
-    input = ft_calloc(sizeof(char *), len + 1);
-    if (!input)
-        return (NULL);
     fd = open(file, O_RDONLY);
     if (fd == -1)
-        return (NULL);
+    {
+        *exit_code = 1;
+        return ;
+    }
     while (1)
     {
-        input[i] = get_next_line(fd, &exit_code);
-        if (exit_code)
-            return (NULL);
-        if (!input[i])
+        lines[i] = get_next_line(fd, exit_code);
+        if (*exit_code)
+            break ;
+        if (!lines[i])
             break ;
         i++;
     }
-    return (input);
+}
+
+char    **parsing_from_file(const char *file)
+{
+    int len;
+    int exit_code;
+    char **lines;
+
+    exit_code = 0;
+    len = get_len_of_file(file, &exit_code);
+    lines = ft_calloc(sizeof(char *), len + 1);
+    if (!lines)
+        return (NULL);
+    get_lines_from_file(file, lines, &exit_code);
+    if (exit_code)
+        return (split_clean_up(lines), NULL);
+    return (lines);
 }
 
 char    *create_white_space_set()
@@ -69,7 +83,7 @@ char    *create_white_space_set()
     int     counter;
     int     set_index;
     char    *set;
-    
+
     counter = BACKSPACE;
     set_index = 0;
     set = ft_calloc(sizeof(char), 8);
@@ -87,7 +101,7 @@ int    trim_the_read_file(char **read_file)
     int     i;
     char    *set;
     int     end_index;
-    
+
     i = 0;
     end_index = get_len_of_read_file(read_file) - get_first_map_len(read_file);
     set = create_white_space_set();
@@ -129,7 +143,7 @@ char    *normal_copy(char *original)
 {
     int     i;
     char    *new_word;
-    
+
     i = 0;
     new_word = ft_calloc(sizeof(char), ft_strlen(original) + 1);
     if (!new_word)
@@ -146,8 +160,10 @@ char    *normal_copy(char *original)
 void    split_clean_up(char **split_line)
 {
     int i;
-    
+
     i = 0;
+    if (!split_line)
+        return ;
     while (split_line[i])
         free(split_line[i++]);
     free(split_line);
@@ -157,55 +173,83 @@ char    *get_texture(char *line)
 {
     char    *texture_path;
     char    **split_line;
-    
+
     split_line = ft_split(line, SPACE);
     if (!split_line)
         return (NULL);
-    if (split_len(split_line) != 2)
+    if (split_len(split_line) == 1)
+    {
+        print_missing_texture_pack(split_line[0]);
+        split_clean_up(split_line);
         return (NULL);
+    }
+    else if (split_len(split_line) > 2)
+    {
+        print_multiple_texture_packs(split_line[0]);
+        split_clean_up(split_line);
+        return (NULL);
+    }
     texture_path = normal_copy(split_line[1]);
     split_clean_up(split_line);
     return (texture_path);
 }
 
+int     matching_names(char *current_line, char *direction)
+{
+    if (!ft_strncmp(current_line, direction, 2) && is_white_space(current_line[2]))
+        return (1);
+    return (0);
+}
+
 char     *get_direction(char **read_file, const char *direction)
 {
     int     i;
-    
+
     i = 0;
     while (read_file[i])
     {
-        if (read_file[i][0] == direction[0] && read_file[i][1] == direction[1] && is_white_space(read_file[i][2]))
+        if (matching_names(read_file[i], (char *)direction))
             return (get_texture(read_file[i]));
         i++;
     }
-    return (NULL);
+    return (ft_strdup(""));
 }
 
 int     free_texture_paths(t_map *map_struct)
 {
-    if (ft_strlen(map_struct->EA))
-        free(map_struct->EA);
-    if (ft_strlen(map_struct->WE))
-        free(map_struct->WE);
-    if (ft_strlen(map_struct->SO))
-        free(map_struct->SO);
-    if (ft_strlen(map_struct->NO))
-        free(map_struct->NO);
+    free(map_struct->EA);
+    free(map_struct->NO);
+    free(map_struct->SO);
+    free(map_struct->WE);
+    free(map_struct->ceiling);
+    free(map_struct->floor);
+    split_clean_up(map_struct->map);
+    free(map_struct);
     return (0);
 }
 
-int     got_every_texture_path(t_map *map_struct)
+void    print_texture_error_message(const char *abbrev)
 {
-    if (!ft_strlen(map_struct->EA))
-        return (free_texture_paths(map_struct));
-    if (!ft_strlen(map_struct->WE))
-        return (free_texture_paths(map_struct));
-    if (!ft_strlen(map_struct->SO))
-        return (free_texture_paths(map_struct));
-    if (!ft_strlen(map_struct->NO))
-        return (free_texture_paths(map_struct));
-    return (1);
+    write(2, "Error\nMissing ", 14);
+    write(2, abbrev, ft_strlen(abbrev));
+    write(2, " identifier\n", 12);
+}
+
+int    check_missing_textures(t_map *map_struct)
+{
+    if (!ft_strncmp(map_struct->EA, "", 1))
+        return (print_texture_error_message("EA"), 1);
+    if (!ft_strncmp(map_struct->WE, "", 1))
+        return (print_texture_error_message("WE"), 1);
+    if (!ft_strncmp(map_struct->NO, "", 1))
+        return (print_texture_error_message("NO"), 1);
+    if (!ft_strncmp(map_struct->SO, "", 1))
+        return (print_texture_error_message("SO"), 1);
+    if (!map_struct->floor)
+        return (print_texture_error_message("F"), 1);
+    if (!map_struct->ceiling)
+        return (print_texture_error_message("C"), 1);
+    return (0);
 }
 
 void     add_colours_to_array(int *colours, char **split_colours)
@@ -220,20 +264,55 @@ void     add_colours_to_array(int *colours, char **split_colours)
     }
 }
 
+void    print_missing_texture_pack(char *level)
+{
+    write(2, "Error\n", 6);
+    write(2, level, ft_strlen(level));
+    write(2, " identifier\n", 12);
+}
+
+void    print_multiple_texture_packs(char *level)
+{
+    write(2, "Error\nMultiple texture packs for ", 33);
+    write(2, level, ft_strlen(level));
+    write(2, "\n", 1);
+}
+
+int    allocate_colours_and_split_line(int **colours, char ***split_line, char *line)
+{
+    *colours = ft_calloc(sizeof(int), 4);
+    if (!*colours)
+        return (0);
+    *split_line = ft_split(line, SPACE);
+    if (!*split_line)
+        return (free(*colours), 0);
+    if (split_len(*split_line) == 1)
+    {
+        print_missing_texture_pack(*split_line[0]);
+        split_clean_up(*split_line);
+        free(*colours);
+        return (0);
+    }
+    else if (split_len(*split_line) > 2)
+    {
+        print_multiple_texture_packs(*split_line[0]);
+        split_clean_up(*split_line);
+        free(*colours);
+        return (0);
+    }
+    return (1);
+}
+
 int     *get_colour(char *line)
 {
     int     *colours;
     char    **split_line;
     char    **split_colours;
-    
-    colours = ft_calloc(sizeof(int), 4);
-    if (!colours)
+
+    colours = NULL;
+    split_line = NULL;
+    if (!allocate_colours_and_split_line(&colours, &split_line, line))
         return (NULL);
-    split_line = ft_split(line, SPACE);
-    if (!split_line)
-        return (free(colours), NULL);
-    if (split_len(split_line) != 2)
-        return (split_clean_up(split_line), free(colours), NULL);
     split_colours = ft_split(split_line[1], COMMA);
     if (!split_colours)
         return (split_clean_up(split_line), free(colours), NULL);
@@ -243,6 +322,13 @@ int     *get_colour(char *line)
     return (colours);
 }
 
+int     matching_levels(char *current_line, const char letter)
+{
+    if (current_line[0] == letter && is_white_space(current_line[1]))
+        return (1);
+    return (0);
+}
+
 int     *get_levels(char **read_file, const char letter)
 {
     int i;
@@ -250,7 +336,7 @@ int     *get_levels(char **read_file, const char letter)
     i = 0;
     while (read_file[i])
     {
-        if (read_file[i][0] == letter && is_white_space(read_file[i][1]))
+        if (matching_levels(read_file[i], letter))
             return (get_colour(read_file[i]));
         i++;
     }
@@ -261,7 +347,7 @@ int     get_first_map_len(char **read_file)
 {
     int     last_index;
     int     len;
-    
+
     len = 0;
     last_index = get_len_of_read_file(read_file) - 1;
     while (!is_new_line(read_file[last_index][0]) && last_index != 0)
@@ -276,7 +362,7 @@ int     get_map_len_from_file(char **read_file)
 {
     int     last_index;
     int     len;
-    
+
     len = 0;
     last_index = get_last_index(read_file);
     while (ft_strncmp(read_file[last_index--], "", 1))
@@ -287,7 +373,7 @@ int     get_map_len_from_file(char **read_file)
 int     get_map_len(char **map)
 {
     int     len;
-    
+
     len = 0;
     while (map[len])
         len++;
@@ -316,7 +402,7 @@ char    **get_map(char **read_file)
     char    **map;
     int     last_index;
     int     len;
-    
+
     len = get_map_len_from_file(read_file);
     last_index = get_len_of_read_file(read_file) - 1;
     map = ft_calloc(sizeof(char *),  len + 1);
@@ -337,16 +423,29 @@ char    **get_map(char **read_file)
 int     get_struct_values(t_map *map_struct, char **read_file)
 {
     map_struct->EA = get_direction(read_file, "EA");
+    if (!map_struct->EA)
+        return (0);
     map_struct->NO = get_direction(read_file, "NO");
+    if (!map_struct->NO)
+        return (free_texture_paths(map_struct));
     map_struct->WE = get_direction(read_file, "WE");
+    if (!map_struct->WE)
+        return (free_texture_paths(map_struct));
     map_struct->SO = get_direction(read_file, "SO");
+    if (!map_struct->SO)
+        return (free_texture_paths(map_struct));
     map_struct->floor = get_levels(read_file, 'F');
+    if (!map_struct->floor)
+        return (free_texture_paths(map_struct));
     map_struct->ceiling = get_levels(read_file, 'C');
+    if (!map_struct->ceiling)
+        return (free_texture_paths(map_struct));
     map_struct->map = get_map(read_file);
-    
-    if (got_every_texture_path(map_struct))
-        return (1);
-    return (0);
+    if (!map_struct->map)
+        return (free_texture_paths(map_struct));
+    if (check_missing_textures(map_struct))
+        return (free_texture_paths(map_struct));
+    return (1);
 }
 
 int     is_new_line(char letter)
@@ -360,7 +459,7 @@ int     get_trimmed_len(char **read_file)
 {
     int len;
     int i;
-    
+
     i = 0;
     len = 0;
     while (read_file[i])
@@ -378,7 +477,7 @@ char    **trim_empty_lines(char **read_file)
     int     trimmed_len;
     int     i;
     int     trimmed_index;
-    
+
     i = 0;
     trimmed_index = 0;
     trimmed_len = get_trimmed_len(read_file);
@@ -398,54 +497,24 @@ char    **trim_empty_lines(char **read_file)
         i++;
     }
     trimmed_read_line[trimmed_index] = NULL;
-    //split_clean_up(read_file);
     return (trimmed_read_line);
 }
 
 int     get_last_index(char **read_file)
 {
     int last_index;
-    
+
     last_index = get_len_of_read_file(read_file) - 1;
     while (!read_file[last_index][0])
         last_index--;
     return (last_index);
 }
 
-const char    **allocate_texture_set()
-{
-    const char  **texture_set;
-    int         i;
-    
-    i = 0;
-    texture_set = ft_calloc(sizeof(char *), 7);
-    if (!texture_set)
-        return (NULL);
-    while (i < 6)
-    {
-        if (i < 4)
-        {
-            texture_set[i] = ft_calloc(sizeof(char), 3);
-            if (!texture_set[i])
-                return (free_strs((char **)texture_set, i), NULL);
-        }
-        else
-        {
-            texture_set[i] = ft_calloc(sizeof(char), 2);
-            if (!texture_set[i])
-                return (free_strs((char **)texture_set, i), NULL);
-        }
-        i++;
-    }
-    texture_set[i] = NULL;
-    return (texture_set);
-}
-
 const char    **create_texture_set()
 {
     const char **texture_set;
-    
-    texture_set = allocate_texture_set();
+
+    texture_set = ft_calloc(sizeof(const char *), 7);
     if (!texture_set)
         return (NULL);
     texture_set[0] = "NO";
@@ -454,6 +523,7 @@ const char    **create_texture_set()
     texture_set[3] = "EA";
     texture_set[4] = "F";
     texture_set[5] = "C";
+    texture_set[6] = NULL;
     return (texture_set);
 }
 
@@ -461,7 +531,7 @@ int     find_index_of(char **read_file, const char *word)
 {
     int len;
     int i;
-    
+
     i = 0;
     len = ft_strlen(word);
     while (read_file[i])
@@ -478,7 +548,7 @@ int     get_first_index(char **read_file)
     int         i;
     int         biggest_index;
     const char  **texture_set;
-    
+
     i = 0;
     biggest_index = 0;
     texture_set = create_texture_set();
@@ -490,6 +560,7 @@ int     get_first_index(char **read_file)
             biggest_index = find_index_of(read_file, texture_set[i]);
         i++;
     }
+    free(texture_set);
     return (biggest_index);
 }
 
@@ -497,6 +568,7 @@ int     is_valid_input(char **read_file)
 {
     int first_index;
     int last_index;
+
     last_index = get_last_index(read_file);
     first_index = get_first_index(read_file) + 1;
     if (first_index == -1)
@@ -520,14 +592,15 @@ t_map   *creating_t_cub_struct(char **read_file)
     if (!map_struct)
         return (NULL);
     if (!trim_the_read_file(read_file))
-        return (NULL);
+        return (t_map_clean_up(map_struct), NULL);
     if (!is_valid_input(read_file))
-        return (write(2, "Error\nInvalid input\n", 20), NULL);
+        return (t_map_clean_up(map_struct), write(2, "Error\nInvalid input\n", 20), NULL);
     read_file = trim_empty_lines(read_file);
     if (!read_file)
-        return (NULL);
+        return (t_map_clean_up(map_struct), NULL);
     if (!get_struct_values(map_struct, read_file))
-        return (NULL);
+        return (split_clean_up(read_file), NULL);
+    split_clean_up(read_file);
     return (map_struct);
 }
 
@@ -561,7 +634,7 @@ char    **copy_map(char **old_map)
 int     flood_fill(char **map, int y, int x)
 {
     int height;
-    
+
     height = get_map_len(map);
     if (y < 0 || y > height)
         return (0);

@@ -6,7 +6,7 @@
 /*   By: bguhty <bguhty@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/07 10:23:12 by bguhty            #+#    #+#             */
-/*   Updated: 2026/10/15 12:40:15 by bguhty           ###   ########.fr       */
+/*   Updated: 2026/11/04 22:13:45 by bguhty           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,73 +18,6 @@ int is_null_terminator(char letter)
         return (1);
     return (0);
 }
-
-// int empty_on_the_right(char *line, int column)
-// {
-//     if (is_white_space(line[column + 1]) || is_null_terminator(line[column + 1]))
-//         return (1);
-//     return (0);
-// }
-
-// int empty_on_the_left(char *line, int column)
-// {
-//     if (column > 0 && is_white_space(line[column - 1]))
-//         return (1);
-//     return (0);
-// }
-
-// int empty_on_the_top(char **map, int row, int column)
-// {
-//     if (row > 0 && is_white_space(map[row - 1][column]))
-//         return (1);
-//     return (0);
-// }
-
-// int empty_on_the_bottom(char **map, int row, int column)
-// {
-//     int last_row_index;
-
-//     last_row_index = map_len(map) - 1;
-//     if (row < last_row_index && is_white_space(map[row + 1][column]))
-//         return (1);
-//     return (0);
-// }
-
-// int sorrund_checker(char **map, int row, int column)
-// {
-//     if (is_white_space(map[row][column]))
-//         return (0);
-//     if (!empty_on_the_bottom(map, row, column))
-//         return (0);
-//     else if (!empty_on_the_top(map, row, column))
-//         return (0);
-//     else if (!empty_on_the_left(map[row], column))
-//         return (0);
-//     else if (!empty_on_the_right(map[row], column))
-//         return (0);
-//     return (1);
-// }
-
-// int any_standing_alone(char **map, int *exit_code)
-// {
-//     int row;
-//     int column;
-
-//     row = 0;
-//     column = 0;
-//     while (map[row])
-//     {
-//         while (map[row][column])
-//         {
-//             if (sorrund_checker(map, row, column))
-//                 return (*exit_code = 3, 1);
-//             column++;
-//         }
-//         column = 0;
-//         row++;
-//     }
-//     return (0);
-// }
 
 int map_len(char **map)
 {
