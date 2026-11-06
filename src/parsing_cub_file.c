@@ -6,7 +6,7 @@
 /*   By: bguhty <bguhty@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/07 15:06:16 by bguhty            #+#    #+#             */
-/*   Updated: 2026/11/06 15:35:38 by dabdulla         ###   ########.fr       */
+/*   Updated: 2026/11/06 15:41:57 by dabdulla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ int     get_len_of_file(const char *file, int *exit_code)
     char *curr;
     int fd;
     int len;
-    char *line;
 
     len = 0;
     fd = open(file, O_RDONLY);
