@@ -31,12 +31,14 @@
 # include <stdlib.h>
 # include <fcntl.h>
 # include <mlx.h>
+# include <math.h>
 # include "../include/libft/libft.h"
 # include "../include/get_next_line/get_next_line.h"
 
 typedef struct	s_map t_map;
 typedef struct s_mlx t_mlx;
 typedef struct s_player t_player;
+typedef struct s_ray t_ray;
 
 typedef struct	s_map
 {
@@ -66,16 +68,34 @@ typedef struct s_player
 	double pos_y;
 	double dir_x;
 	double dir_y;
-	double plane_x;
-	double plane_y;
+	double cam_x;
+	double cam_y;
 
 }				t_player;
+
+typedef struct s_ray
+{
+	int side;
+	int step_x;
+	int step_y;
+	int map_x;
+	int map_y;
+	double perp_dist;
+	double ray_x;
+	double ray_y;
+	double delta_x;
+	double delta_y;
+	double side_x;
+	double side_y;
+
+}			t_ray;
 
 typedef struct	s_cub
 {
 	t_map		*map;
 	t_mlx		mlx;
 	t_player	player;
+	t_ray		ray;
 }				t_cub;
 
 int 	is_white_space(char letter);
@@ -98,5 +118,6 @@ void    display_invalid_map_message(int exit_code);
 int		map_is_valid(char **map, int *exit_code);
 void    split_clean_up(char **split_line);
 int     get_last_index(char **read_file);
-
+void render_frame(t_cub *game);
+void put_color(t_mlx *mlx);
 #endif
