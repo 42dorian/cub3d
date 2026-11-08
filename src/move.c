@@ -12,27 +12,27 @@
 
 #include "cub3d.h"
 
-static int wall_check(t_cub *game, double y, double x)
+static int	wall_check(t_cub *game, double y, double x)
 {
 	if (game->map->map[(int)y][(int)x] == '1')
 		return (1);
 	return (0);
 }
 
-static double wall_offset(double step)
+static double	wall_offset(double step)
 {
 	if (step > 0)
 		return (WALL_OFFSET);
 	return (-WALL_OFFSET);
 }
 
-void move_sideways(t_cub *game, int keycode)
+void	move_sideways(t_cub *game, int keycode)
 {
-	int sign;
-	double new_x;
-	double new_y;
-	double step_x;
-	double step_y;
+	int		sign;
+	double	new_x;
+	double	new_y;
+	double	step_x;
+	double	step_y;
 
 	if (keycode == D_KEY)
 		sign = 1;
@@ -50,13 +50,13 @@ void move_sideways(t_cub *game, int keycode)
 		game->player.pos_y = new_y;
 }
 
-void move_forward(t_cub *game, int keycode)
+void	move_forward(t_cub *game, int keycode)
 {
-	int sign;
-	double new_y;
-	double new_x;
-	double step_x;
-	double step_y;
+	int		sign;
+	double	new_y;
+	double	new_x;
+	double	step_x;
+	double	step_y;
 
 	if (keycode == W_KEY)
 		sign = 1;

@@ -12,7 +12,7 @@
 
 #include "cub3d.h"
 
-int key_down(int keycode, t_cub *game)
+int	key_down(int keycode, t_cub *game)
 {
 	if (keycode == A_KEY)
 		game->keys.a_key = 1;
@@ -29,7 +29,7 @@ int key_down(int keycode, t_cub *game)
 	return (0);
 }
 
-int key_up(int keycode, t_cub *game)
+int	key_up(int keycode, t_cub *game)
 {
 	if (keycode == A_KEY)
 		game->keys.a_key = 0;

@@ -12,12 +12,11 @@
 
 #include "cub3d.h"
 
+static void	draw_column(t_cub *game, int x);
 
-static void draw_column(t_cub *game, int x);
-
-void put_pixel(t_mlx *mlx, int row, int col, int color)
+void	put_pixel(t_mlx *mlx, int row, int col, int color)
 {
-	char *dst;
+	char	*dst;
 
 	if (col < 0 || col >= WIDTH || row < 0 || row >= HEIGHT)
 		return ;
@@ -25,11 +24,13 @@ void put_pixel(t_mlx *mlx, int row, int col, int color)
 	*(unsigned int *)dst = (unsigned int)color;
 }
 
-void put_color(t_mlx *mlx)
+void	put_color(t_mlx *mlx)
 {
-	int row = 0;
-	int col = 0;
+	int	row;
+	int	col;
 
+	row = 0;
+	col = 0;
 	while (row < HEIGHT)
 	{
 		col = 0;
@@ -42,9 +43,9 @@ void put_color(t_mlx *mlx)
 	}
 }
 
-static void dda_loop(t_cub *game)
+static void	dda_loop(t_cub *game)
 {
-	int hit;
+	int	hit;
 
 	hit = 0;
 	while (hit == 0)
@@ -66,42 +67,44 @@ static void dda_loop(t_cub *game)
 	}
 }
 
-static int get_color(int *rgb)
+static int	get_color(int *rgb)
 {
-	int color;
+	int	color;
 
 	color = rgb[0] << 16 | rgb[1] << 8 | rgb[2];
 	return (color);
 }
 
-static void draw_column(t_cub *game, int x)
+static void	draw_column(t_cub *game, int x)
 {
-	int line_h;
-	int start;
-	int end;
-	int y;
+	t_tex	*t;
+	int		line_h;
+	int		top;
+	int		tex_x;
+	int		y;
 
 	line_h = (int)(HEIGHT / game->ray.perp_dist);
+	top = HEIGHT / 2 - line_h / 2;
 	y = 0;
-	start = HEIGHT / 2 - line_h / 2;
-	end = HEIGHT / 2 + line_h / 2;
-	if (start < 0)
-		start = 0;
-	if (end >= HEIGHT)
-		end = HEIGHT - 1;
-	while (y < start)
+	while (y < top && y < HEIGHT)
 		put_pixel(&game->mlx, y++, x, get_color(game->map->ceiling));
-	while (y <= end)
-		put_pixel(&game->mlx, y++, x, 0x008080);
+	t = tex_selector(game);
+	tex_x = get_tex_x(game, t);
+	while (y < top + line_h && y < HEIGHT)
+	{
+		put_pixel(&game->mlx, y, x, get_texture_color(t, tex_x, (y - top)
+				* t->height / line_h));
+		y++;
+	}
 	while (y < HEIGHT)
 		put_pixel(&game->mlx, y++, x, get_color(game->map->floor));
 }
 
-void render_frame(t_cub *game)
+void	render_frame(t_cub *game)
 {
-	t_player *p;
-	double camera_x;
-	int x;
+	t_player	*p;
+	double		camera_x;
+	int			x;
 
 	p = &game->player;
 	x = 0;
@@ -131,11 +134,13 @@ void render_frame(t_cub *game)
 		if (game->ray.step_x == -1)
 			game->ray.side_x = (p->pos_x - game->ray.map_x) * game->ray.delta_x;
 		else
-			game->ray.side_x = (game->ray.map_x + 1 - p->pos_x) * game->ray.delta_x;
+			game->ray.side_x = (game->ray.map_x + 1 - p->pos_x)
+				* game->ray.delta_x;
 		if (game->ray.step_y == -1)
 			game->ray.side_y = (p->pos_y - game->ray.map_y) * game->ray.delta_y;
 		else
-			game->ray.side_y = (game->ray.map_y + 1 - p->pos_y) * game->ray.delta_y;
+			game->ray.side_y = (game->ray.map_y + 1 - p->pos_y)
+				* game->ray.delta_y;
 		dda_loop(game);
 		if (game->ray.side == 0)
 			game->ray.perp_dist = game->ray.side_x - game->ray.delta_x;

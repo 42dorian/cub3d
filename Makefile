@@ -6,7 +6,8 @@ SOURCE =	src/valid_map_checker.c \
 			src/render.c \
 			src/move.c \
 			src/rotate.c \
-			src/input.c
+			src/input.c \
+			src/textures.c
 
 CFLAGS = -Wall -Wextra -Werror -g
 INCLUDES = -I./minilibx-linux -I/opt/X11/include -L./minilibx-linux -lmlx -L/opt/X11/lib -lXext -lX11 -lm

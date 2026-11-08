@@ -6,7 +6,7 @@
 /*   By: bguhty <bguhty@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/29 15:18:40 by dabdulla          #+#    #+#             */
-/*   Updated: 2026/11/08 15:30:40 by dabdulla         ###   ########.fr       */
+/*   Updated: 2026/11/08 22:02:13 by dabdulla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,33 +34,34 @@ void	t_map_clean_up(t_map *game_board)
 
 t_map	*map_parsing(int args, char **argv)
 {
-	int			exit_code;
-	t_map		*game_board;
-    char    	**read_file;
+	int		exit_code;
+	t_map	*game_board;
+	char	**read_file;
 
 	exit_code = 0;
 	if (args != 2)
 		return (ft_putendl_fd("Error\nNo map spcified!", 2), NULL);
-    read_file = parsing_from_file(argv[1]);
+	read_file = parsing_from_file(argv[1]);
 	if (!read_file)
 		return (NULL);
-    game_board = creating_t_cub_struct(read_file);
+	game_board = creating_t_cub_struct(read_file);
 	if (!game_board)
 		return (split_clean_up(read_file), NULL);
 	split_clean_up(read_file);
 	if (!map_is_valid(game_board->map, &exit_code))
-		return (t_map_clean_up(game_board), display_invalid_map_message(exit_code), NULL);
+		return (t_map_clean_up(game_board),
+			display_invalid_map_message(exit_code), NULL);
 	return (game_board);
 }
 
-int is_player(char p)
+int	is_player(char p)
 {
 	if (p == 'N' || p == 'S' || p == 'E' || p == 'W')
 		return (1);
 	return (0);
 }
 
-void set_north(t_player *player)
+void	set_north(t_player *player)
 {
 	player->dir_x = 0;
 	player->dir_y = -1;
@@ -68,7 +69,7 @@ void set_north(t_player *player)
 	player->cam_y = 0;
 }
 
-void set_south(t_player *player)
+void	set_south(t_player *player)
 {
 	player->dir_x = 0;
 	player->dir_y = 1;
@@ -76,7 +77,7 @@ void set_south(t_player *player)
 	player->cam_y = 0;
 }
 
-void set_east(t_player *player)
+void	set_east(t_player *player)
 {
 	player->dir_x = 1;
 	player->dir_y = 0;
@@ -84,7 +85,7 @@ void set_east(t_player *player)
 	player->cam_y = 0.66;
 }
 
-void set_west(t_player *player)
+void	set_west(t_player *player)
 {
 	player->dir_x = -1;
 	player->dir_y = 0;
@@ -92,7 +93,7 @@ void set_west(t_player *player)
 	player->cam_y = -0.66;
 }
 
-void init_player(t_player *player, int row, int column, char pos)
+void	init_player(t_player *player, int row, int column, char pos)
 {
 	player->pos_y = row + 0.5;
 	player->pos_x = column + 0.5;
@@ -106,21 +107,25 @@ void init_player(t_player *player, int row, int column, char pos)
 		set_west(player);
 }
 
-void print_player_position(t_map *map, t_player *player)
+void	print_player_position(t_map *map, t_player *player)
 {
-	int row = 0;
-	int column = 0;
+	int	row;
+	int	column;
 
+	row = 0;
+	column = 0;
 	while (map->map[row])
 	{
 		column = 0;
-		while(map->map[row][column])
+		while (map->map[row][column])
 		{
 			if (is_player(map->map[row][column]))
 			{
 				printf("Row: %i, Column: %i\n", row, column);
 				init_player(player, row, column, map->map[row][column]);
-				printf("Player Pos: (%f, %f), Player Dir: (%f, %f), Player Plane: (%f, %f)\n", player->pos_y, player->pos_x, player->dir_y, player->dir_x, player->cam_y, player->cam_x);
+				printf("Player Pos: (%f, %f), Player Dir: (%f, %f),
+					Player Plane: (%f, %f)\n", player->pos_y, player->pos_x,
+					player->dir_y, player->dir_x, player->cam_y, player->cam_x);
 				return ;
 			}
 			column++;
@@ -129,7 +134,7 @@ void print_player_position(t_map *map, t_player *player)
 	}
 	printf("No player found!\n");
 }
-static void key_hook(t_cub *game)
+static void	key_hook(t_cub *game)
 {
 	if (game->keys.a_key == 1)
 		move_sideways(game, A_KEY);
@@ -141,24 +146,22 @@ static void key_hook(t_cub *game)
 		move_forward(game, S_KEY);
 	if (game->keys.left_key == 1)
 		rotate_player(game, LEFT_KEY);
-	if(game->keys.right_key == 1)
+	if (game->keys.right_key == 1)
 		rotate_player(game, RIGHT_KEY);
 }
 
-static int render_loop(t_cub *game)
+static int	render_loop(t_cub *game)
 {
 	key_hook(game);
 	render_frame(game);
-	mlx_put_image_to_window(game->mlx.mlx_ptr, game->mlx.win_ptr, game->mlx.img_ptr, 0, 0);
+	mlx_put_image_to_window(game->mlx.mlx_ptr, game->mlx.win_ptr,
+		game->mlx.img_ptr, 0, 0);
 	return (0);
 }
 
-
-
-
 int	main(int args, char **argv)
 {
-	t_cub game;
+	t_cub	game;
 
 	ft_bzero(&game, sizeof(game));
 	game.map = map_parsing(args, argv);
@@ -174,12 +177,15 @@ int	main(int args, char **argv)
 	game.mlx.img_ptr = mlx_new_image(game.mlx.mlx_ptr, WIDTH, HEIGHT);
 	if (!game.mlx.img_ptr)
 		return (1);
-	game.mlx.addr = mlx_get_data_addr(game.mlx.img_ptr, &game.mlx.bpp, &game.mlx.line_len, &game.mlx.endian);
+	game.mlx.addr = mlx_get_data_addr(game.mlx.img_ptr, &game.mlx.bpp,
+			&game.mlx.line_len, &game.mlx.endian);
 	if (!game.mlx.addr)
 		return (1);
+	if (!load_images(&game))
+		return (1);
 	mlx_loop_hook(game.mlx.mlx_ptr, render_loop, &game);
-	mlx_hook(game.mlx.win_ptr, 2, 1L<<0, key_down, &game);
-	mlx_hook(game.mlx.win_ptr, 3, 1L<<1, key_up, &game);
+	mlx_hook(game.mlx.win_ptr, 2, 1L << 0, key_down, &game);
+	mlx_hook(game.mlx.win_ptr, 3, 1L << 1, key_up, &game);
 	mlx_do_key_autorepeatoff(game.mlx.mlx_ptr);
 	mlx_loop(game.mlx.mlx_ptr);
 	t_map_clean_up(game.map);
