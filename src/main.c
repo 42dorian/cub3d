@@ -6,7 +6,7 @@
 /*   By: bguhty <bguhty@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/29 15:18:40 by dabdulla          #+#    #+#             */
-/*   Updated: 2026/11/08 22:02:13 by dabdulla         ###   ########.fr       */
+/*   Updated: 2026/11/08 22:19:14 by dabdulla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,19 +121,15 @@ void	print_player_position(t_map *map, t_player *player)
 		{
 			if (is_player(map->map[row][column]))
 			{
-				printf("Row: %i, Column: %i\n", row, column);
 				init_player(player, row, column, map->map[row][column]);
-				printf("Player Pos: (%f, %f), Player Dir: (%f, %f),
-					Player Plane: (%f, %f)\n", player->pos_y, player->pos_x,
-					player->dir_y, player->dir_x, player->cam_y, player->cam_x);
 				return ;
 			}
 			column++;
 		}
 		row++;
 	}
-	printf("No player found!\n");
 }
+
 static void	key_hook(t_cub *game)
 {
 	if (game->keys.a_key == 1)
