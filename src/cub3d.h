@@ -25,6 +25,16 @@
 # define NULL_TERMINATOR 0
 # define WIDTH 1280
 # define HEIGHT 720
+# define ESC_KEY 65307
+# define W_KEY 119
+# define A_KEY 97
+# define S_KEY 115
+# define D_KEY 100
+# define LEFT_KEY 65361
+# define RIGHT_KEY 65363
+# define ROTATE_SPEED 0.01
+# define MOVE_SPEED 0.01
+# define WALL_OFFSET 0.2
 
 # include <unistd.h>
 # include <stdio.h>
@@ -39,6 +49,7 @@ typedef struct	s_map t_map;
 typedef struct s_mlx t_mlx;
 typedef struct s_player t_player;
 typedef struct s_ray t_ray;
+typedef struct s_keys t_keys;
 
 typedef struct	s_map
 {
@@ -73,6 +84,16 @@ typedef struct s_player
 
 }				t_player;
 
+typedef struct s_keys
+{
+	int w_key;
+	int s_key;
+	int a_key;
+	int d_key;
+	int left_key;
+	int right_key;
+} t_keys;
+
 typedef struct s_ray
 {
 	int side;
@@ -96,6 +117,7 @@ typedef struct	s_cub
 	t_mlx		mlx;
 	t_player	player;
 	t_ray		ray;
+	t_keys		keys;
 }				t_cub;
 
 int 	is_white_space(char letter);
@@ -123,5 +145,9 @@ void put_color(t_mlx *mlx);
 void    print_missing_texture_pack(char *level);
 void    print_multiple_texture_packs(char *level);
 void	t_map_clean_up(t_map *game_board);
-
+void move_sideways(t_cub *game, int keycode);
+void move_forward(t_cub *game, int keycode);
+int key_down(int keycode, t_cub *game);
+int key_up(int keycode, t_cub *game);
+void rotate_player(t_cub *game, int keycode);
 #endif

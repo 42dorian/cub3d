@@ -6,7 +6,7 @@
 /*   By: dabdulla <dabdulla@student.42vienna.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/05 12:42:14 by dabdulla          #+#    #+#             */
-/*   Updated: 2026/11/06 15:28:23 by dabdulla         ###   ########.fr       */
+/*   Updated: 2026/11/08 15:33:54 by dabdulla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,14 @@ static void dda_loop(t_cub *game)
 	}
 }
 
+static int get_color(int *rgb)
+{
+	int color;
+
+	color = rgb[0] << 16 | rgb[1] << 8 | rgb[2];
+	return (color);
+}
+
 static void draw_column(t_cub *game, int x)
 {
 	int line_h;
@@ -82,11 +90,11 @@ static void draw_column(t_cub *game, int x)
 	if (end >= HEIGHT)
 		end = HEIGHT - 1;
 	while (y < start)
-		put_pixel(&game->mlx, y++, x, 0x333333);
+		put_pixel(&game->mlx, y++, x, get_color(game->map->ceiling));
 	while (y <= end)
 		put_pixel(&game->mlx, y++, x, 0x008080);
 	while (y < HEIGHT)
-		put_pixel(&game->mlx, y++, x, 0x666666);
+		put_pixel(&game->mlx, y++, x, get_color(game->map->floor));
 }
 
 void render_frame(t_cub *game)

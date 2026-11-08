@@ -3,7 +3,10 @@ NAME = cub3d
 SOURCE =	src/valid_map_checker.c \
 			src/parsing_cub_file.c \
 			src/main.c \
-			src/render.c
+			src/render.c \
+			src/move.c \
+			src/rotate.c \
+			src/input.c
 
 CFLAGS = -Wall -Wextra -Werror -g
 INCLUDES = -I./minilibx-linux -I/opt/X11/include -L./minilibx-linux -lmlx -L/opt/X11/lib -lXext -lX11 -lm
