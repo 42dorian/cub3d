@@ -6,7 +6,7 @@
 /*   By: bguhty <bguhty@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/29 15:18:40 by dabdulla          #+#    #+#             */
-/*   Updated: 2026/11/08 22:19:14 by dabdulla         ###   ########.fr       */
+/*   Updated: 2026/11/09 11:50:54 by bguhty           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,10 @@ t_map	*map_parsing(int args, char **argv)
 	char	**read_file;
 
 	exit_code = 0;
-	if (args != 2)
+	if (args == 1)
 		return (ft_putendl_fd("Error\nNo map spcified!", 2), NULL);
+	if (args > 2)
+		return (ft_putendl_fd("Error\nMultiple maps specified!", 2), NULL);
 	read_file = parsing_from_file(argv[1]);
 	if (!read_file)
 		return (NULL);

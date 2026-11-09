@@ -10,7 +10,9 @@ SOURCE =	src/valid_map_checker.c \
 			src/textures.c
 
 CFLAGS = -Wall -Wextra -Werror -g
-INCLUDES = -I./minilibx-linux -I/opt/X11/include -L./minilibx-linux -lmlx -L/opt/X11/lib -lXext -lX11 -lm
+INCLUDES = -I./minilibx-linux -Iinclude/libft -Iinclude/get_next_line
+MLX_FLAGS = -L./minilibx-linux -lmlx -lXext -lX11 -lm
+# INCLUDES = -I./minilibx-linux -I/opt/X11/include -L./minilibx-linux -lmlx -L/opt/X11/lib -lXext -lX11 -lm
 OBJECTS = $(SOURCE:.c=.o)
 
 
@@ -32,10 +34,10 @@ $(LIBFT):
 	@make -C $(LIBFT_DIR)
 
 %.o: %.c src/cub3d.h include/libft/libft.h include/get_next_line/get_next_line.h
-	$(CC) $(CFLAGS) -c $< -o $@
+	$(CC) $(INCLUDES) $(CFLAGS) -c $< -o $@
 
 $(NAME): $(LIBFT) $(OBJECTS) $(GNL_OBJ)
-	$(CC) $(CFLAGS) $(INCLUDES) $(OBJECTS) $(LIBFT)  $(GNL_OBJ) -o $(NAME)
+	$(CC) $(CFLAGS) $(INCLUDES) $(OBJECTS) $(LIBFT)  $(GNL_OBJ) $(MLX_FLAGS) -o $(NAME)
 
 clean:
 	@make -C $(LIBFT_DIR) clean

@@ -6,7 +6,7 @@
 /*   By: bguhty <bguhty@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 15:09:38 by dabdulla          #+#    #+#             */
-/*   Updated: 2026/11/04 22:23:49 by bguhty           ###   ########.fr       */
+/*   Updated: 2026/11/09 11:03:50 by bguhty           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void				*ft_memchr(const void *s, int c, size_t n);
 int					ft_memcmp(const void *s1, const void *s2, size_t n);
 char				*ft_strnstr(const char *big, const char *little,
 						size_t len);
-uint8_t				ft_atoi(const char *nptr);
+int					ft_atoi(const char *nptr);
 char				*ft_strdup(const char *s);
 void				*ft_calloc(size_t nmemb, size_t size);
 char				*ft_substr(char const *s, unsigned int start, size_t len);

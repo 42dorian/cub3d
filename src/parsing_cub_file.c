@@ -6,7 +6,7 @@
 /*   By: bguhty <bguhty@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/07 15:06:16 by bguhty            #+#    #+#             */
-/*   Updated: 2026/11/06 15:41:57 by dabdulla         ###   ########.fr       */
+/*   Updated: 2026/11/09 11:38:16 by bguhty           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,11 @@ char	**parsing_from_file(const char *file)
 
 	exit_code = 0;
 	len = get_len_of_file(file, &exit_code);
+    if (len == -1)
+    {
+        write(2, "Error\nWrong file\n", 17);
+        return (NULL);
+    }
 	lines = ft_calloc(sizeof(char *), len + 1);
 	if (!lines)
 		return (NULL);
@@ -252,7 +257,7 @@ int	check_missing_textures(t_map *map_struct)
 	return (0);
 }
 
-void	add_colours_to_array(int *colours, char **split_colours)
+int add_colours_to_array(int *colours, char **split_colours)
 {
 	int	i;
 
@@ -260,8 +265,17 @@ void	add_colours_to_array(int *colours, char **split_colours)
 	while (split_colours[i])
 	{
 		colours[i] = ft_atoi(split_colours[i]);
+        if (colours[i] == -1)
+        {
+            write(2, "Error\nAll colours' codes must be", 32);
+            write(2, " in the following range: 0-255\n", 31);
+            free(colours);
+            colours = NULL;
+            return (0);
+        }
 		i++;
 	}
+    return (1);
 }
 
 void	print_missing_texture_pack(char *level)
@@ -318,7 +332,8 @@ int	*get_colour(char *line)
 	if (!split_colours)
 		return (split_clean_up(split_line), free(colours), NULL);
 	split_clean_up(split_line);
-	add_colours_to_array(colours, split_colours);
+	if (!add_colours_to_array(colours, split_colours))
+        return (split_clean_up(split_colours), NULL);
 	split_clean_up(split_colours);
 	return (colours);
 }
