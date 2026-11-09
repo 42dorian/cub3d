@@ -6,7 +6,7 @@
 /*   By: bguhty <bguhty@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/29 15:18:40 by dabdulla          #+#    #+#             */
-/*   Updated: 2026/11/09 11:50:54 by bguhty           ###   ########.fr       */
+/*   Updated: 2026/11/09 12:14:13 by bguhty           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ t_map	*map_parsing(int args, char **argv)
 		return (NULL);
 	game_board = creating_t_cub_struct(read_file);
 	if (!game_board)
-		return (split_clean_up(read_file), NULL);
+		return (NULL);
 	split_clean_up(read_file);
 	if (!map_is_valid(game_board->map, &exit_code))
 		return (t_map_clean_up(game_board),

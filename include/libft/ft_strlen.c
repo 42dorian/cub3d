@@ -6,7 +6,7 @@
 /*   By: bguhty <bguhty@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 13:36:09 by dabdulla          #+#    #+#             */
-/*   Updated: 2026/10/15 12:52:39 by bguhty           ###   ########.fr       */
+/*   Updated: 2026/11/09 12:01:53 by bguhty           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ int	ft_strlen(const char *s)
 	int	i;
 
 	i = 0;
+	if (!s)
+		return (i);
 	while (s[i])
 	{
 		i++;

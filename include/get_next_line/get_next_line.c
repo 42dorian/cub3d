@@ -6,7 +6,7 @@
 /*   By: bguhty <bguhty@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/23 19:09:55 by dabdulla          #+#    #+#             */
-/*   Updated: 2026/10/08 21:37:03 by bguhty           ###   ########.fr       */
+/*   Updated: 2026/11/09 12:11:32 by bguhty           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,25 +55,33 @@ int	is_newline(char *s)
 	return (0);
 }
 
-char	*read_loop(int fd, char *file)
+char	*read_loop(int fd, char *file, int *exit_code)
 {
 	char	*buffer;
 	int		r;
 
 	buffer = malloc(BUFFER_SIZE + 1);
 	if (!buffer)
+	{
+		*exit_code = 1;
 		return (free_and_null(&file, &r));
+	}
 	if (!file)
 	{
 		file = malloc(1);
 		if (!file)
+		{
+			*exit_code = 1;
 			return (free_and_null(&buffer, &r));
+		}
 		file[0] = '\0';
 	}
 	r = 1;
 	while (r > 0 && !is_newline(file))
 	{
 		r = read(fd, buffer, BUFFER_SIZE);
+		if (r < 0)
+			*exit_code = 1;
 		if (r <= 0)
 			break ;
 		buffer[r] = '\0';
@@ -90,7 +98,7 @@ char	*get_next_line(int fd, int *exit_code)
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (free_and_null(&file, exit_code));
-	file = read_loop(fd, file);
+	file = read_loop(fd, file, exit_code);
 	if (!file)
 		return (NULL);
 	if (*file == '\0')

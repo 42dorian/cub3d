@@ -6,7 +6,7 @@
 /*   By: bguhty <bguhty@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/07 15:06:16 by bguhty            #+#    #+#             */
-/*   Updated: 2026/11/09 11:38:16 by bguhty           ###   ########.fr       */
+/*   Updated: 2026/11/09 12:00:36 by bguhty           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ void	get_lines_from_file(const char *file, char **lines, int *exit_code)
 			break ;
 		i++;
 	}
+    close(fd);
 }
 
 char	**parsing_from_file(const char *file)
@@ -509,7 +510,11 @@ char	**trim_empty_lines(char **read_file)
 				return (NULL);
 		}
 		if (trimmed_index == 6)
-			trimmed_read_line[trimmed_index++] = ft_strdup("");
+        {
+			trimmed_read_line[trimmed_index] = ft_strdup("");
+            if (!trimmed_read_line[trimmed_index++])
+                return (NULL);
+        }
 		i++;
 	}
 	trimmed_read_line[trimmed_index] = NULL;

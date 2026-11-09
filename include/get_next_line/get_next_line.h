@@ -6,7 +6,7 @@
 /*   By: bguhty <bguhty@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/23 19:09:57 by dabdulla          #+#    #+#             */
-/*   Updated: 2026/10/08 21:35:08 by bguhty           ###   ########.fr       */
+/*   Updated: 2026/11/09 12:09:39 by bguhty           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 # endif
 
 char	*get_next_line(int fd, int *exit_code);
-char	*read_loop(int fd, char *file);
+char	*read_loop(int fd, char *file, int *exit_code);
 int		is_newline(char *s);
 int		find_new_line(char *str);
 char	*join_free(char *s1, char *s2);
