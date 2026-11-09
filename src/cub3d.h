@@ -157,6 +157,8 @@ void					render_frame(t_cub *game);
 void					print_missing_texture_pack(char *level);
 void					print_multiple_texture_packs(char *level);
 void					t_map_clean_up(t_map *game_board);
+void					find_player(t_map *map, t_player *player);
+void					init_player(t_player *player, int row, int column, char pos);
 void					move_sideways(t_cub *game, int keycode);
 void					move_forward(t_cub *game, int keycode);
 int						key_down(int keycode, t_cub *game);
@@ -166,5 +168,7 @@ t_tex					*tex_selector(t_cub *game);
 int						get_tex_x(t_cub *game, t_tex *t);
 int						get_texture_color(t_tex *t, int tex_x, int tex_y);
 int						load_images(t_cub *g);
+int						free_texture_paths(t_map *map_struct);
+void					clean_game(t_cub *game);
 
 #endif

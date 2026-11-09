@@ -6,7 +6,7 @@
 /*   By: bguhty <bguhty@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/07 15:06:16 by bguhty            #+#    #+#             */
-/*   Updated: 2026/11/09 12:00:36 by bguhty           ###   ########.fr       */
+/*   Updated: 2026/11/09 13:12:13 by dabdulla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,18 +162,6 @@ char	*normal_copy(char *original)
 	return (new_word);
 }
 
-void	split_clean_up(char **split_line)
-{
-	int	i;
-
-	i = 0;
-	if (!split_line)
-		return ;
-	while (split_line[i])
-		free(split_line[i++]);
-	free(split_line);
-}
-
 char	*get_texture(char *line)
 {
 	char	*texture_path;
@@ -221,18 +209,7 @@ char	*get_direction(char **read_file, const char *direction)
 	return (ft_strdup(""));
 }
 
-int	free_texture_paths(t_map *map_struct)
-{
-	free(map_struct->EA);
-	free(map_struct->NO);
-	free(map_struct->SO);
-	free(map_struct->WE);
-	free(map_struct->ceiling);
-	free(map_struct->floor);
-	split_clean_up(map_struct->map);
-	free(map_struct);
-	return (0);
-}
+
 
 void	print_texture_error_message(const char *abbrev)
 {
