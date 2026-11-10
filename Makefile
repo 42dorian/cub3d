@@ -7,7 +7,16 @@ SOURCE =	src/valid_map_checker.c \
 			src/move.c \
 			src/rotate.c \
 			src/input.c \
-			src/textures.c
+			src/textures.c \
+			src/clean_up_functions.c \
+			src/error_messages.c \
+			src/get_lengths.c \
+			src/get_struct_values.c \
+			src/input_validity.c \
+			src/one_line_helpers.c \
+			src/one_line_helpers_2.c \
+			src/player_validity.c \
+			src/set_directions.c 
 
 CFLAGS = -Wall -Wextra -Werror -g
 INCLUDES = -I./minilibx-linux -Iinclude/libft -Iinclude/get_next_line

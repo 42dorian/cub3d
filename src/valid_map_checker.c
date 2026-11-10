@@ -6,37 +6,11 @@
 /*   By: bguhty <bguhty@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/07 10:23:12 by bguhty            #+#    #+#             */
-/*   Updated: 2026/11/04 22:13:45 by bguhty           ###   ########.fr       */
+/*   Updated: 2026/11/10 13:17:13 by bguhty           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-
-int	is_null_terminator(char letter)
-{
-	if (letter == NULL_TERMINATOR)
-		return (1);
-	return (0);
-}
-
-int	map_len(char **map)
-{
-	int	len;
-
-	len = 0;
-	if (!map)
-		return (len);
-	while (map[len])
-		len++;
-	return (len);
-}
-
-int	is_white_space(char letter)
-{
-	if ((letter <= CARRIAGE_RET && letter >= BACKSPACE) || letter == SPACE)
-		return (1);
-	return (0);
-}
 
 int	first_wall_index(char *curr_line)
 {
@@ -74,62 +48,6 @@ int	is_line_valid(char *line)
 	return (1);
 }
 
-int	is_wall(char letter)
-{
-	if (letter == '1')
-		return (1);
-	return (0);
-}
-
-int	is_character(char letter)
-{
-	if (letter == W || letter == S || letter == N || letter == E)
-		return (1);
-	return (0);
-}
-
-int	get_x_of_start(char **map)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	j = 0;
-	while (map[i])
-	{
-		while (map[i][j])
-		{
-			if (is_character(map[i][j]))
-				return (j);
-			j++;
-		}
-		j = 0;
-		i++;
-	}
-	return (-1);
-}
-
-int	get_y_of_start(char **map)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	j = 0;
-	while (map[i])
-	{
-		while (map[i][j])
-		{
-			if (is_character(map[i][j]))
-				return (i);
-			j++;
-		}
-		j = 0;
-		i++;
-	}
-	return (-1);
-}
-
 int	map_is_valid(char **map, int *exit_code)
 {
 	char	**fake_map;
@@ -138,7 +56,7 @@ int	map_is_valid(char **map, int *exit_code)
 
 	x = get_x_of_start(map);
 	y = get_y_of_start(map);
-	if (!characters_check(map, exit_code))
+	if (!player_check(map, exit_code))
 		return (0);
 	convert_spaces_to_zeroes(map);
 	fake_map = copy_map(map);
@@ -147,10 +65,10 @@ int	map_is_valid(char **map, int *exit_code)
 	if (!flood_fill(fake_map, y, x))
 	{
 		*exit_code = 4;
-		split_clean_up(fake_map);
+		clean_up_2d(fake_map);
 		return (0);
 	}
-	split_clean_up(fake_map);
+	clean_up_2d(fake_map);
 	return (1);
 }
 
@@ -173,67 +91,4 @@ void	convert_spaces_to_zeroes(char **map)
 		}
 		i++;
 	}
-}
-
-int	valid_char(char letter, int *news, int *exit_code)
-{
-	if (letter == N || letter == S || letter == W || letter == E)
-	{
-		if (*news)
-		{
-			*exit_code = 1;
-			return (0);
-		}
-		else
-			*news = letter;
-	}
-	else if (letter != ONE && letter != ZERO && !is_white_space(letter))
-	{
-		*exit_code = 2;
-		return (0);
-	}
-	return (1);
-}
-
-int	characters_check(char **map, int *exit_code)
-{
-	int	news;
-	int	i;
-	int	j;
-
-	news = 0;
-	i = 0;
-	j = 0;
-	while (map[i])
-	{
-		while (map[i][j])
-		{
-			if (!valid_char(map[i][j], &news, exit_code))
-				return (0);
-			j++;
-		}
-		j = 0;
-		i++;
-	}
-	if (!news)
-	{
-		*exit_code = 5;
-		return (0);
-	}
-	return (1);
-}
-
-void	display_invalid_map_message(int exit_code)
-{
-	if (exit_code == 1)
-		write(2, "Error\nMultiple starting positions!\n", 35);
-	else if (exit_code == 2)
-		write(2, "Error\nInvalid character on the board!\n", 38);
-	else if (exit_code == 3)
-		write(2, "Error\nAdditional island(s)!\n", 28);
-	else if (exit_code == 4)
-		write(2, "Error\nThe island is not completely surrounded by walls!\n",
-			56);
-	else if (exit_code == 5)
-		write(2, "Error\nNo starting position spcified!\n", 37);
 }
