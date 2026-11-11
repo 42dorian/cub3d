@@ -6,7 +6,7 @@
 /*   By: bguhty <bguhty@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 15:59:08 by dabdulla          #+#    #+#             */
-/*   Updated: 2026/10/08 22:49:14 by bguhty           ###   ########.fr       */
+/*   Updated: 2026/11/10 23:41:27 by bguhty           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,10 @@ static int	count_words(char const *s, char c)
 	return (count);
 }
 
-void	free_strs(char **strs, int i)
+void	clean_up_2d_until_index(char **strs, int i)
 {
+	if (!strs)
+		return ;
 	while (i >= 0)
 	{
 		free(strs[i]);
@@ -77,7 +79,7 @@ static char	**copy_strs(char **strs, char const *s, char c, int words)
 			strs[i] = malloc(word_len(s, c) + 1);
 			if (!strs[i])
 			{
-				free_strs(strs, --i);
+				clean_up_2d_until_index(strs, --i);
 				return (NULL);
 			}
 			ft_memcpy(strs[i], s, word_len(s, c));

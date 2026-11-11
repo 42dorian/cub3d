@@ -9,9 +9,15 @@ SOURCE =	src/valid_map_checker.c \
 			src/rotate.c \
 			src/input.c \
 			src/textures.c \
-			src/cleanup.c \
-			src/init_player.c \
-			src/general_helpers.c
+			src/clean_up_functions.c \
+			src/error_messages.c \
+			src/get_lengths.c \
+			src/get_struct_values.c \
+			src/input_validity.c \
+			src/one_line_helpers.c \
+			src/one_line_helpers_2.c \
+			src/player_validity.c \
+			src/set_directions.c 
 
 CFLAGS = -Wall -Wextra -Werror -g
 #we need to remove one of these in the future, either includes or mlx_flags

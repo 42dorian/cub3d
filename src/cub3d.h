@@ -6,7 +6,7 @@
 /*   By: bguhty <bguhty@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/29 15:18:34 by dabdulla          #+#    #+#             */
-/*   Updated: 2026/11/09 10:50:59 by bguhty           ###   ########.fr       */
+/*   Updated: 2026/11/11 15:16:06 by bguhty           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,28 +134,38 @@ typedef struct s_cub
 }						t_cub;
 
 int						is_white_space(char letter);
-int						map_len(char **map);
 void					convert_spaces_to_zeroes(char **map);
-int						characters_check(char **map, int *exit_code);
-int						get_len_of_read_file(char **read_file);
+int						player_check(char **map, int *exit_code);
 int						is_null_terminator(char letter);
 t_map					*creating_t_cub_struct(char **read_file);
 char					**parsing_from_file(const char *file);
 char					*normal_copy(char *original);
-int						get_map_len(char **read_file);
 int						flood_fill(char **map, int x, int y);
 char					**copy_map(char **old_map);
+char					**get_map(char **read_file);
 int						is_safe_spot(char letter);
-int						is_new_line(char letter);
+int						check_missing_textures(t_map *map_struct);
+int						*get_levels(char **read_file, const char letter);
+int						matching_levels(char *current_line, const char letter);
+void					free_map_with_index(char **map, int last, int current);
 int						get_first_map_len(char **read_file);
-int						get_second_map_len(char **read_file);
-void					display_invalid_map_message(int exit_code);
+void					print_invalid_map_message(int exit_code);
 int						map_is_valid(char **map, int *exit_code);
-void					split_clean_up(char **split_line);
-int						get_last_index(char **read_file);
+void					clean_up_2d(char **split_line);
+int						*get_colour(char *line);
+char					*get_texture(char *line);
+int						allocate_colours_and_split_line(int **colours, char ***split_line,
+						char *line);
+int 					add_colours_to_array(int *colours, char **split_colours);
+char					*get_direction(char **read_file, const char *direction);
+int						matching_names(char *current_line, char *direction);
+int						get_last_index_of_map(char **read_file);
 void					render_frame(t_cub *game);
+void					print_missing_level_id(const char id);
 void					print_missing_texture_pack(char *level);
 void					print_multiple_texture_packs(char *level);
+void					print_missing_id_error(const char *id);
+void    				print_colour_code_error();
 void					t_map_clean_up(t_map *game_board);
 void					find_player(t_map *map, t_player *player);
 void					init_player(t_player *player, int row, int column, char pos);
@@ -176,5 +186,20 @@ void init_rays(t_cub *game, int x);
 void init_step_and_side(t_cub *game);
 
 
+int						is_player(char letter);
+int						is_null_terminator(char letter);
+int						is_white_space(char letter);
+int						is_wall(char letter);
+int						get_map_len_from_file(char **read_file);
+int						get_y_of_start(char **map);
+int						get_x_of_start(char **map);
+int						get_struct_values(t_map *map_struct, char **read_file);
+int						is_valid_input(char **read_file);
+int						get_2d_len(char **split_line);
+int						get_len_of_file(const char *file, int *exit_code);
+void					set_east(t_player *player);
+void					set_west(t_player *player);
+void					set_south(t_player *player);
+void					set_north(t_player *player);
 
 #endif
