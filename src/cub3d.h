@@ -6,7 +6,7 @@
 /*   By: bguhty <bguhty@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/29 15:18:34 by dabdulla          #+#    #+#             */
-/*   Updated: 2026/11/10 23:52:07 by bguhty           ###   ########.fr       */
+/*   Updated: 2026/11/11 15:16:06 by bguhty           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,6 +167,8 @@ void					print_multiple_texture_packs(char *level);
 void					print_missing_id_error(const char *id);
 void    				print_colour_code_error();
 void					t_map_clean_up(t_map *game_board);
+void					find_player(t_map *map, t_player *player);
+void					init_player(t_player *player, int row, int column, char pos);
 void					move_sideways(t_cub *game, int keycode);
 void					move_forward(t_cub *game, int keycode);
 int						key_down(int keycode, t_cub *game);

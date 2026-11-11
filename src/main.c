@@ -6,7 +6,7 @@
 /*   By: bguhty <bguhty@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/29 15:18:40 by dabdulla          #+#    #+#             */
-/*   Updated: 2026/11/11 12:31:35 by bguhty           ###   ########.fr       */
+/*   Updated: 2026/11/11 15:16:35 by bguhty           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,24 @@ static int	render_loop(t_cub *game)
 	return (0);
 }
 
+int init_mlx(t_cub *game)
+{
+	game->mlx.mlx_ptr = mlx_init();
+	if (!game->mlx.mlx_ptr)
+		return (0);
+	game->mlx.win_ptr = mlx_new_window(game->mlx.mlx_ptr, WIDTH, HEIGHT, "cub3d");
+	if (!game->mlx.win_ptr)
+		return (0);
+	game->mlx.img_ptr = mlx_new_image(game->mlx.mlx_ptr, WIDTH, HEIGHT);
+	if (!game->mlx.img_ptr)
+		return (0);
+	game->mlx.addr = mlx_get_data_addr(game->mlx.img_ptr, &game->mlx.bpp,
+			&game->mlx.line_len, &game->mlx.endian);
+	if (!game->mlx.addr)
+		return (0);
+	return (1);
+}
+
 int	main(int args, char **argv)
 {
 	t_cub	game;
@@ -129,8 +147,9 @@ int	main(int args, char **argv)
 	mlx_loop_hook(game.mlx.mlx_ptr, render_loop, &game);
 	mlx_hook(game.mlx.win_ptr, 2, 1L << 0, key_down, &game);
 	mlx_hook(game.mlx.win_ptr, 3, 1L << 1, key_up, &game);
+	mlx_hook(game.mlx.win_ptr, 17, 0, mlx_loop_end, game.mlx.mlx_ptr);
 	mlx_do_key_autorepeatoff(game.mlx.mlx_ptr);
 	mlx_loop(game.mlx.mlx_ptr);
-	t_map_clean_up(game.map);
+	clean_game(&game);
 	return (0);
 }
