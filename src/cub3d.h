@@ -169,6 +169,9 @@ void					print_missing_id_error(const char *id);
 void					print_colour_code_error(void);
 void					t_map_clean_up(t_map *game_board);
 void					find_player(t_map *map, t_player *player);
+int						init_mlx(t_cub *game);
+void					mlx_hooks(t_cub *game);
+void					key_hook(t_cub *game);
 void					init_player(t_player *player, int row, int column,
 							char pos);
 void					move_sideways(t_cub *game, int keycode);
@@ -186,7 +189,8 @@ void					put_pixel(t_mlx *mlx, int row, int col, int color);
 void					put_color(t_mlx *mlx);
 void					init_rays(t_cub *game, int x);
 void					init_step_and_side(t_cub *game);
-
+void					dda_loop(t_cub *game);
+int						render_loop(t_cub *game);
 int						is_player(char letter);
 int						is_null_terminator(char letter);
 int						is_white_space(char letter);

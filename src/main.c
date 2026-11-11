@@ -6,7 +6,7 @@
 /*   By: bguhty <bguhty@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/29 15:18:40 by dabdulla          #+#    #+#             */
-/*   Updated: 2026/11/11 15:48:02 by dabdulla         ###   ########.fr       */
+/*   Updated: 2026/11/11 16:41:11 by dabdulla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,87 +37,6 @@ t_map	*map_parsing(int args, char **argv)
 	return (game_board);
 }
 
-void	init_player(t_player *player, int row, int column, char pos)
-{
-	player->pos_y = row + 0.5;
-	player->pos_x = column + 0.5;
-	if (pos == 'N')
-		set_north(player);
-	if (pos == 'S')
-		set_south(player);
-	if (pos == 'E')
-		set_east(player);
-	if (pos == 'W')
-		set_west(player);
-}
-
-void	print_player_position(t_map *map, t_player *player)
-{
-	int	row;
-	int	column;
-
-	row = 0;
-	column = 0;
-	while (map->map[row])
-	{
-		column = 0;
-		while (map->map[row][column])
-		{
-			if (is_player(map->map[row][column]))
-			{
-				init_player(player, row, column, map->map[row][column]);
-				return ;
-			}
-			column++;
-		}
-		row++;
-	}
-}
-
-static void	key_hook(t_cub *game)
-{
-	if (game->keys.a_key == 1)
-		move_sideways(game, A_KEY);
-	if (game->keys.d_key == 1)
-		move_sideways(game, D_KEY);
-	if (game->keys.w_key == 1)
-		move_forward(game, W_KEY);
-	if (game->keys.s_key == 1)
-		move_forward(game, S_KEY);
-	if (game->keys.left_key == 1)
-		rotate_player(game, LEFT_KEY);
-	if (game->keys.right_key == 1)
-		rotate_player(game, RIGHT_KEY);
-}
-
-static int	render_loop(t_cub *game)
-{
-	key_hook(game);
-	render_frame(game);
-	mlx_put_image_to_window(game->mlx.mlx_ptr, game->mlx.win_ptr,
-		game->mlx.img_ptr, 0, 0);
-	return (0);
-}
-
-int	init_mlx(t_cub *game)
-{
-	game->mlx.mlx_ptr = mlx_init();
-	if (!game->mlx.mlx_ptr)
-		return (0);
-	game->mlx.win_ptr = mlx_new_window(game->mlx.mlx_ptr, WIDTH, HEIGHT,
-			"cub3d");
-	if (!game->mlx.win_ptr)
-		return (0);
-	game->mlx.img_ptr = mlx_new_image(game->mlx.mlx_ptr, WIDTH, HEIGHT);
-	if (!game->mlx.img_ptr)
-		return (0);
-	game->mlx.addr = mlx_get_data_addr(game->mlx.img_ptr, &game->mlx.bpp,
-			&game->mlx.line_len, &game->mlx.endian);
-	if (!game->mlx.addr)
-		return (0);
-	return (1);
-}
-
 int	main(int args, char **argv)
 {
 	t_cub	game;
@@ -126,28 +45,10 @@ int	main(int args, char **argv)
 	game.map = map_parsing(args, argv);
 	if (!game.map)
 		return (1);
-	print_player_position(game.map, &game.player);
-	game.mlx.mlx_ptr = mlx_init();
-	if (!game.mlx.mlx_ptr)
-		return (1);
-	game.mlx.win_ptr = mlx_new_window(game.mlx.mlx_ptr, WIDTH, HEIGHT, "cub3d");
-	if (!game.mlx.win_ptr)
-		return (1);
-	game.mlx.img_ptr = mlx_new_image(game.mlx.mlx_ptr, WIDTH, HEIGHT);
-	if (!game.mlx.img_ptr)
-		return (1);
-	game.mlx.addr = mlx_get_data_addr(game.mlx.img_ptr, &game.mlx.bpp,
-			&game.mlx.line_len, &game.mlx.endian);
-	if (!game.mlx.addr)
-		return (1);
-	if (!load_images(&game))
-		return (1);
-	mlx_loop_hook(game.mlx.mlx_ptr, render_loop, &game);
-	mlx_hook(game.mlx.win_ptr, 2, 1L << 0, key_down, &game);
-	mlx_hook(game.mlx.win_ptr, 3, 1L << 1, key_up, &game);
-	mlx_hook(game.mlx.win_ptr, 17, 0, mlx_loop_end, game.mlx.mlx_ptr);
-	mlx_do_key_autorepeatoff(game.mlx.mlx_ptr);
-	mlx_loop(game.mlx.mlx_ptr);
+	find_player(game.map, &game.player);
+	if (!init_mlx(&game) || !load_images(&game))
+		return (clean_game(&game), 1);
+	mlx_hooks(&game);
 	clean_game(&game);
 	return (0);
 }

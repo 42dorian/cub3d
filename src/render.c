@@ -6,7 +6,7 @@
 /*   By: dabdulla <dabdulla@student.42vienna.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/05 12:42:14 by dabdulla          #+#    #+#             */
-/*   Updated: 2026/11/11 15:22:48 by dabdulla         ###   ########.fr       */
+/*   Updated: 2026/11/11 16:40:54 by dabdulla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,28 +14,14 @@
 
 static void	draw_column(t_cub *game, int x);
 
-static void	dda_loop(t_cub *game)
+void	put_pixel(t_mlx *mlx, int row, int col, int color)
 {
-	int	hit;
+	char	*dst;
 
-	hit = 0;
-	while (hit == 0)
-	{
-		if (game->ray.side_x < game->ray.side_y)
-		{
-			game->ray.side_x += game->ray.delta_x;
-			game->ray.map_x += game->ray.step_x;
-			game->ray.side = 0;
-		}
-		else
-		{
-			game->ray.side_y += game->ray.delta_y;
-			game->ray.map_y += game->ray.step_y;
-			game->ray.side = 1;
-		}
-		if (game->map->map[game->ray.map_y][game->ray.map_x] == '1')
-			hit = 1;
-	}
+	if (col < 0 || col >= WIDTH || row < 0 || row >= HEIGHT)
+		return ;
+	dst = mlx->addr + (row * mlx->line_len + col * (mlx->bpp / 8));
+	*(unsigned int *)dst = (unsigned int)color;
 }
 
 static int	get_color(int *rgb)
@@ -69,6 +55,15 @@ static void	draw_column(t_cub *game, int x)
 	}
 	while (y < HEIGHT)
 		put_pixel(&game->mlx, y++, x, get_color(game->map->floor));
+}
+
+int	render_loop(t_cub *game)
+{
+	key_hook(game);
+	render_frame(game);
+	mlx_put_image_to_window(game->mlx.mlx_ptr, game->mlx.win_ptr,
+		game->mlx.img_ptr, 0, 0);
+	return (0);
 }
 
 void	render_frame(t_cub *game)

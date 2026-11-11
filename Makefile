@@ -3,8 +3,9 @@ NAME = cub3d
 SOURCE =	src/valid_map_checker.c \
 			src/parsing_cub_file.c \
 			src/main.c \
+			src/mlx.c \
 			src/render.c \
-			src/render_helpers.c \
+			src/raycasting.c \
 			src/move.c \
 			src/rotate.c \
 			src/input.c \

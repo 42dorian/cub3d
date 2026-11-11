@@ -6,40 +6,11 @@
 /*   By: dabdulla <dabdulla@student.42vienna.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/11 15:22:18 by dabdulla          #+#    #+#             */
-/*   Updated: 2026/11/11 15:22:51 by dabdulla         ###   ########.fr       */
+/*   Updated: 2026/11/11 16:41:19 by dabdulla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-
-void	put_pixel(t_mlx *mlx, int row, int col, int color)
-{
-	char	*dst;
-
-	if (col < 0 || col >= WIDTH || row < 0 || row >= HEIGHT)
-		return ;
-	dst = mlx->addr + (row * mlx->line_len + col * (mlx->bpp / 8));
-	*(unsigned int *)dst = (unsigned int)color;
-}
-
-void	put_color(t_mlx *mlx)
-{
-	int	row;
-	int	col;
-
-	row = 0;
-	col = 0;
-	while (row < HEIGHT)
-	{
-		col = 0;
-		while (col < WIDTH)
-		{
-			put_pixel(mlx, row, col, 0xFF0000);
-			col++;
-		}
-		row++;
-	}
-}
 
 void	init_rays(t_cub *game, int x)
 {
@@ -85,5 +56,29 @@ void	init_step_and_side(t_cub *game)
 		game->ray.step_y = 1;
 		game->ray.side_y = (game->ray.map_y + 1 - game->player.pos_y)
 			* game->ray.delta_y;
+	}
+}
+
+void	dda_loop(t_cub *game)
+{
+	int	hit;
+
+	hit = 0;
+	while (hit == 0)
+	{
+		if (game->ray.side_x < game->ray.side_y)
+		{
+			game->ray.side_x += game->ray.delta_x;
+			game->ray.map_x += game->ray.step_x;
+			game->ray.side = 0;
+		}
+		else
+		{
+			game->ray.side_y += game->ray.delta_y;
+			game->ray.map_y += game->ray.step_y;
+			game->ray.side = 1;
+		}
+		if (game->map->map[game->ray.map_y][game->ray.map_x] == '1')
+			hit = 1;
 	}
 }
