@@ -6,7 +6,7 @@
 /*   By: bguhty <bguhty@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/07 15:06:16 by bguhty            #+#    #+#             */
-/*   Updated: 2026/11/10 23:47:54 by bguhty           ###   ########.fr       */
+/*   Updated: 2026/11/11 12:34:26 by bguhty           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,8 +94,7 @@ int	trim_the_read_file(char **read_file)
 		if (!read_file[i])
 		{
 			clean_up_2d(read_file);
-			free(set);
-			return (0);
+			return (free(set), 0);
 		}
 		i++;
 	}
@@ -149,10 +148,6 @@ int	check_missing_textures(t_map *map_struct)
 		return (print_missing_id_error("NO"), 1);
 	if (!ft_strncmp(map_struct->SO, "", 1))
 		return (print_missing_id_error("SO"), 1);
-	// if (!map_struct->floor)
-	// 	return (print_missing_id_error("F"), 1);
-	// if (!map_struct->ceiling)
-	// 	return (print_missing_id_error("C"), 1);
 	return (0);
 }
 
@@ -294,6 +289,7 @@ char	**trim_empty_lines(char **read_file)
         }
 		i++;
 	}
+	clean_up_2d(read_file);
 	trimmed_read_line[trimmed_index] = NULL;
 	return (trimmed_read_line);
 }
@@ -308,8 +304,7 @@ t_map	*creating_t_cub_struct(char **read_file)
     if (!trim_the_read_file(read_file))
 		return (t_map_clean_up(map_struct), NULL);
     if (!is_valid_input(read_file))
-		return (t_map_clean_up(map_struct), write(2, "Error\nInvalid input\n",
-				20), NULL);
+		return (t_map_clean_up(map_struct), NULL);
     read_file = trim_empty_lines(read_file);
 	if (!read_file)
 		return (t_map_clean_up(map_struct), NULL);

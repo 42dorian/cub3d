@@ -6,7 +6,7 @@
 /*   By: bguhty <bguhty@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/07 10:23:12 by bguhty            #+#    #+#             */
-/*   Updated: 2026/11/10 13:17:13 by bguhty           ###   ########.fr       */
+/*   Updated: 2026/11/11 12:32:30 by bguhty           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int	map_is_valid(char **map, int *exit_code)
 	x = get_x_of_start(map);
 	y = get_y_of_start(map);
 	if (!player_check(map, exit_code))
-		return (0);
+		return (print_invalid_map_message(*exit_code), 0);
 	convert_spaces_to_zeroes(map);
 	fake_map = copy_map(map);
 	if (!fake_map)
@@ -66,6 +66,7 @@ int	map_is_valid(char **map, int *exit_code)
 	{
 		*exit_code = 4;
 		clean_up_2d(fake_map);
+		print_invalid_map_message(*exit_code);
 		return (0);
 	}
 	clean_up_2d(fake_map);

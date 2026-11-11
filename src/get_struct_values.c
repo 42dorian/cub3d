@@ -6,7 +6,7 @@
 /*   By: bguhty <bguhty@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/10 12:29:08 by bguhty            #+#    #+#             */
-/*   Updated: 2026/11/10 23:51:49 by bguhty           ###   ########.fr       */
+/*   Updated: 2026/11/11 12:36:05 by bguhty           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	get_struct_values(t_map *map_struct, char **read_file)
 {
 	map_struct->EA = get_direction(read_file, "EA");
 	if (!map_struct->EA)
-		return (0);
+		return (free(map_struct), 0);
 	map_struct->NO = get_direction(read_file, "NO");
 	if (!map_struct->NO)
 		return (t_map_clean_up(map_struct), 0);
@@ -55,6 +55,36 @@ int	*get_levels(char **read_file, const char letter)
 	return (NULL);
 }
 
+int	only_3_rgb_codes(char **split_colours, char **split_line, int *colours)
+{
+	int len;
+	char id;
+	
+	id = split_line[0][0];
+	len = get_2d_len(split_colours);
+	if (len != 3)
+	{
+		if (len < 3)
+		{
+			write(2, "Error\nMissing rgb code(s) for ", 30);
+			ft_putchar_fd(id, 2);
+			write(2, " identifier!\n", 13);
+		}
+		else
+		{
+			write(2, "Error\nrgb code has more than 3 units ", 37);
+			write(2, "for ", 4);
+			ft_putchar_fd(id, 2);
+			write(2, " identifier!\n", 13);
+		}
+		clean_up_2d(split_colours);
+		clean_up_2d(split_line);
+		free(colours);
+		return (0);
+	}
+	return (1);
+}
+
 int	*get_colour(char *line)
 {
 	int		*colours;
@@ -68,6 +98,8 @@ int	*get_colour(char *line)
 	split_colours = ft_split(split_line[1], COMMA);
 	if (!split_colours)
 		return (clean_up_2d(split_line), free(colours), NULL);
+	if (!only_3_rgb_codes(split_colours, split_line, colours))
+		return (NULL);
 	clean_up_2d(split_line);
 	if (!add_colours_to_array(colours, split_colours))
         return (clean_up_2d(split_colours), NULL);

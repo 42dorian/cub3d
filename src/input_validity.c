@@ -6,7 +6,7 @@
 /*   By: bguhty <bguhty@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/10 13:20:23 by bguhty            #+#    #+#             */
-/*   Updated: 2026/11/10 23:42:00 by bguhty           ###   ########.fr       */
+/*   Updated: 2026/11/11 12:33:37 by bguhty           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,11 +89,15 @@ int	is_valid_input(char **read_file)
 	last_index = get_last_index_of_map(read_file);
 	first_index = get_first_index_of_map(read_file);
 	if (first_index == -1)
-		return (clean_up_2d(read_file), 0);
+		return (0);
 	while (first_index < last_index)
 	{
 		if (!(read_file[first_index][0]))
-			return (clean_up_2d(read_file), 0);
+		{
+			write(2, "Error\nMultiple maps!\n", 21);
+			clean_up_2d(read_file);
+			return (0);
+		}
 		first_index++;
 	}
 	return (1);
