@@ -170,5 +170,11 @@ int						get_texture_color(t_tex *t, int tex_x, int tex_y);
 int						load_images(t_cub *g);
 int						free_texture_paths(t_map *map_struct);
 void					clean_game(t_cub *game);
+void	put_pixel(t_mlx *mlx, int row, int col, int color);
+void	put_color(t_mlx *mlx);
+void init_rays(t_cub *game, int x);
+void init_step_and_side(t_cub *game);
+
+
 
 #endif

@@ -6,42 +6,13 @@
 /*   By: dabdulla <dabdulla@student.42vienna.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/05 12:42:14 by dabdulla          #+#    #+#             */
-/*   Updated: 2026/11/08 15:33:54 by dabdulla         ###   ########.fr       */
+/*   Updated: 2026/11/11 15:22:48 by dabdulla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
 static void	draw_column(t_cub *game, int x);
-
-void	put_pixel(t_mlx *mlx, int row, int col, int color)
-{
-	char	*dst;
-
-	if (col < 0 || col >= WIDTH || row < 0 || row >= HEIGHT)
-		return ;
-	dst = mlx->addr + (row * mlx->line_len + col * (mlx->bpp / 8));
-	*(unsigned int *)dst = (unsigned int)color;
-}
-
-void	put_color(t_mlx *mlx)
-{
-	int	row;
-	int	col;
-
-	row = 0;
-	col = 0;
-	while (row < HEIGHT)
-	{
-		col = 0;
-		while (col < WIDTH)
-		{
-			put_pixel(mlx, row, col, 0xFF0000);
-			col++;
-		}
-		row++;
-	}
-}
 
 static void	dda_loop(t_cub *game)
 {
@@ -100,47 +71,17 @@ static void	draw_column(t_cub *game, int x)
 		put_pixel(&game->mlx, y++, x, get_color(game->map->floor));
 }
 
+
+
 void	render_frame(t_cub *game)
 {
-	t_player	*p;
-	double		camera_x;
 	int			x;
 
-	p = &game->player;
 	x = 0;
 	while (x < WIDTH)
 	{
-		camera_x = 2.0 * x / WIDTH - 1;
-		game->ray.ray_x = p->dir_x + p->cam_x * camera_x;
-		game->ray.ray_y = p->dir_y + p->cam_y * camera_x;
-		game->ray.map_x = (int)p->pos_x;
-		game->ray.map_y = (int)p->pos_y;
-		if (game->ray.ray_x == 0)
-			game->ray.delta_x = 1e30;
-		else
-			game->ray.delta_x = 1 / fabs(game->ray.ray_x);
-		if (game->ray.ray_y == 0)
-			game->ray.delta_y = 1e30;
-		else
-			game->ray.delta_y = 1 / fabs(game->ray.ray_y);
-		if (game->ray.ray_x < 0)
-			game->ray.step_x = -1;
-		else
-			game->ray.step_x = 1;
-		if (game->ray.ray_y < 0)
-			game->ray.step_y = -1;
-		else
-			game->ray.step_y = 1;
-		if (game->ray.step_x == -1)
-			game->ray.side_x = (p->pos_x - game->ray.map_x) * game->ray.delta_x;
-		else
-			game->ray.side_x = (game->ray.map_x + 1 - p->pos_x)
-				* game->ray.delta_x;
-		if (game->ray.step_y == -1)
-			game->ray.side_y = (p->pos_y - game->ray.map_y) * game->ray.delta_y;
-		else
-			game->ray.side_y = (game->ray.map_y + 1 - p->pos_y)
-				* game->ray.delta_y;
+		init_rays(game, x);
+		init_step_and_side(game);
 		dda_loop(game);
 		if (game->ray.side == 0)
 			game->ray.perp_dist = game->ray.side_x - game->ray.delta_x;

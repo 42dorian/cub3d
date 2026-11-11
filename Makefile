@@ -4,6 +4,7 @@ SOURCE =	src/valid_map_checker.c \
 			src/parsing_cub_file.c \
 			src/main.c \
 			src/render.c \
+			src/render_helpers.c \
 			src/move.c \
 			src/rotate.c \
 			src/input.c \
