@@ -6,7 +6,7 @@
 /*   By: bguhty <bguhty@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/10 12:29:08 by bguhty            #+#    #+#             */
-/*   Updated: 2026/11/11 12:36:05 by bguhty           ###   ########.fr       */
+/*   Updated: 2026/11/11 13:15:46 by bguhty           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,32 @@ int	only_3_rgb_codes(char **split_colours, char **split_line, int *colours)
 	return (1);
 }
 
+int	only_2_splitted(char **split_line, int *colours)
+{
+	int len;
+
+	len = get_2d_len(split_line);
+	if (len != 2)
+	{
+		if (len < 2)
+		{
+			write(2, "Error\nMissing rgb code for ", 27);
+			write(2, split_line[0], 1);
+			write(2, " identifier!\n", 13);
+		}
+		else
+		{
+			write(2, "Error\nToo many rgb codes for ", 29);
+			write(2, split_line[0], 1);
+			write(2, " identifier!\n", 13);
+		}
+		clean_up_2d(split_line);
+		free(colours);
+		return (1);
+	}
+	return (0);
+}
+
 int	*get_colour(char *line)
 {
 	int		*colours;
@@ -95,6 +121,8 @@ int	*get_colour(char *line)
 	split_line = NULL;
 	if (!allocate_colours_and_split_line(&colours, &split_line, line))
 		return (NULL);
+	// if (!only_2_splitted(split_line, colours))
+	// 	return (NULL);
 	split_colours = ft_split(split_line[1], COMMA);
 	if (!split_colours)
 		return (clean_up_2d(split_line), free(colours), NULL);

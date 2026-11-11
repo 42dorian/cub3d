@@ -6,7 +6,7 @@
 /*   By: bguhty <bguhty@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 14:55:00 by dabdulla          #+#    #+#             */
-/*   Updated: 2026/11/09 11:41:12 by bguhty           ###   ########.fr       */
+/*   Updated: 2026/11/11 13:20:18 by bguhty           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ char	*ft_strtrim(char *s1, char const *set)
 	start = find_start(s1, set);
 	size = ft_strlen(s1) - start - find_end(s1, set);
 	if (size <= 0)
-		return (ft_strdup(""));
+		return (free(s1), ft_strdup(""));
 	str = malloc(sizeof(char) * (size + 1));
 	if (!str)
 		return (NULL);
