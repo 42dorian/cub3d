@@ -18,4 +18,3 @@ int	is_safe_spot(char letter)
 		return (1);
 	return (0);
 }
-

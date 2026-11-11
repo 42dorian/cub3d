@@ -6,7 +6,7 @@
 /*   By: bguhty <bguhty@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/10 12:29:08 by bguhty            #+#    #+#             */
-/*   Updated: 2026/11/11 13:15:46 by bguhty           ###   ########.fr       */
+/*   Updated: 2026/11/11 15:59:07 by dabdulla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,17 @@
 
 int	get_struct_values(t_map *map_struct, char **read_file)
 {
-	map_struct->EA = get_direction(read_file, "EA");
-	if (!map_struct->EA)
+	map_struct->ea = get_direction(read_file, "EA");
+	if (!map_struct->ea)
 		return (free(map_struct), 0);
-	map_struct->NO = get_direction(read_file, "NO");
-	if (!map_struct->NO)
+	map_struct->no = get_direction(read_file, "NO");
+	if (!map_struct->no)
 		return (t_map_clean_up(map_struct), 0);
-	map_struct->WE = get_direction(read_file, "WE");
-	if (!map_struct->WE)
+	map_struct->we = get_direction(read_file, "WE");
+	if (!map_struct->we)
 		return (t_map_clean_up(map_struct), 0);
-	map_struct->SO = get_direction(read_file, "SO");
-	if (!map_struct->SO)
+	map_struct->so = get_direction(read_file, "SO");
+	if (!map_struct->so)
 		return (t_map_clean_up(map_struct), 0);
 	map_struct->floor = get_levels(read_file, 'F');
 	if (!map_struct->floor)
@@ -57,9 +57,9 @@ int	*get_levels(char **read_file, const char letter)
 
 int	only_3_rgb_codes(char **split_colours, char **split_line, int *colours)
 {
-	int len;
-	char id;
-	
+	int		len;
+	char	id;
+
 	id = split_line[0][0];
 	len = get_2d_len(split_colours);
 	if (len != 3)
@@ -87,7 +87,7 @@ int	only_3_rgb_codes(char **split_colours, char **split_line, int *colours)
 
 int	only_2_splitted(char **split_line, int *colours)
 {
-	int len;
+	int	len;
 
 	len = get_2d_len(split_line);
 	if (len != 2)
@@ -130,7 +130,7 @@ int	*get_colour(char *line)
 		return (NULL);
 	clean_up_2d(split_line);
 	if (!add_colours_to_array(colours, split_colours))
-        return (clean_up_2d(split_colours), NULL);
+		return (clean_up_2d(split_colours), NULL);
 	clean_up_2d(split_colours);
 	return (colours);
 }

@@ -6,7 +6,7 @@
 /*   By: bguhty <bguhty@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/07 15:06:16 by bguhty            #+#    #+#             */
-/*   Updated: 2026/11/11 15:15:28 by bguhty           ###   ########.fr       */
+/*   Updated: 2026/11/11 15:59:07 by dabdulla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	get_lines_from_file(const char *file, char **lines, int *exit_code)
 			break ;
 		i++;
 	}
-    close(fd);
+	close(fd);
 }
 
 char	**parsing_from_file(const char *file)
@@ -45,11 +45,11 @@ char	**parsing_from_file(const char *file)
 
 	exit_code = 0;
 	len = get_len_of_file(file, &exit_code);
-    if (len == -1)
-    {
-        write(2, "Error\nWrong file\n", 17);
-        return (NULL);
-    }
+	if (len == -1)
+	{
+		write(2, "Error\nWrong file\n", 17);
+		return (NULL);
+	}
 	lines = ft_calloc(sizeof(char *), len + 1);
 	if (!lines)
 		return (NULL);
@@ -140,18 +140,18 @@ int	matching_names(char *current_line, char *direction)
 
 int	check_missing_textures(t_map *map_struct)
 {
-	if (!ft_strncmp(map_struct->EA, "", 1))
+	if (!ft_strncmp(map_struct->ea, "", 1))
 		return (print_missing_id_error("EA"), 1);
-	if (!ft_strncmp(map_struct->WE, "", 1))
+	if (!ft_strncmp(map_struct->we, "", 1))
 		return (print_missing_id_error("WE"), 1);
-	if (!ft_strncmp(map_struct->NO, "", 1))
+	if (!ft_strncmp(map_struct->no, "", 1))
 		return (print_missing_id_error("NO"), 1);
-	if (!ft_strncmp(map_struct->SO, "", 1))
+	if (!ft_strncmp(map_struct->so, "", 1))
 		return (print_missing_id_error("SO"), 1);
 	return (0);
 }
 
-int add_colours_to_array(int *colours, char **split_colours)
+int	add_colours_to_array(int *colours, char **split_colours)
 {
 	int	i;
 
@@ -159,16 +159,16 @@ int add_colours_to_array(int *colours, char **split_colours)
 	while (split_colours[i])
 	{
 		colours[i] = ft_atoi(split_colours[i]);
-        if (colours[i] == -1)
-        {
-            print_colour_code_error();
-            free(colours);
-            colours = NULL;
-            return (0);
-        }
+		if (colours[i] == -1)
+		{
+			print_colour_code_error();
+			free(colours);
+			colours = NULL;
+			return (0);
+		}
 		i++;
 	}
-    return (1);
+	return (1);
 }
 
 int	allocate_colours_and_split_line(int **colours, char ***split_line,
@@ -282,11 +282,11 @@ char	**trim_empty_lines(char **read_file)
 				return (NULL);
 		}
 		if (trimmed_index == 6)
-        {
+		{
 			trimmed_read_line[trimmed_index] = ft_strdup("");
-            if (!trimmed_read_line[trimmed_index++])
-                return (NULL);
-        }
+			if (!trimmed_read_line[trimmed_index++])
+				return (NULL);
+		}
 		i++;
 	}
 	clean_up_2d(read_file);
@@ -301,11 +301,11 @@ t_map	*creating_t_cub_struct(char **read_file)
 	map_struct = ft_calloc(sizeof(t_map), 1);
 	if (!map_struct)
 		return (NULL);
-    if (!trim_the_read_file(read_file))
+	if (!trim_the_read_file(read_file))
 		return (t_map_clean_up(map_struct), NULL);
-    if (!is_valid_input(read_file))
+	if (!is_valid_input(read_file))
 		return (t_map_clean_up(map_struct), NULL);
-    read_file = trim_empty_lines(read_file);
+	read_file = trim_empty_lines(read_file);
 	if (!read_file)
 		return (t_map_clean_up(map_struct), NULL);
 	if (!get_struct_values(map_struct, read_file))

@@ -33,10 +33,10 @@ void	print_multiple_texture_packs(char *level)
 	write(2, "\n", 1);
 }
 
-void    print_colour_code_error()
+void	print_colour_code_error(void)
 {
-    write(2, "Error\nAll colours' codes must be", 32);
-    write(2, " in the following range: 0-255\n", 31);
+	write(2, "Error\nAll colours' codes must be", 32);
+	write(2, " in the following range: 0-255\n", 31);
 }
 
 void	print_invalid_map_message(int exit_code)

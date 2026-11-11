@@ -41,9 +41,9 @@ void	put_color(t_mlx *mlx)
 	}
 }
 
-void init_rays(t_cub *game, int x)
+void	init_rays(t_cub *game, int x)
 {
-	double camera_x;
+	double	camera_x;
 
 	camera_x = 2.0 * x / WIDTH - 1;
 	game->ray.ray_x = game->player.dir_x + game->player.cam_x * camera_x;
@@ -58,15 +58,15 @@ void init_rays(t_cub *game, int x)
 		game->ray.delta_y = 1e30;
 	else
 		game->ray.delta_y = 1 / fabs(game->ray.ray_y);
-
 }
 
-void init_step_and_side(t_cub *game)
+void	init_step_and_side(t_cub *game)
 {
 	if (game->ray.ray_x < 0)
 	{
 		game->ray.step_x = -1;
-		game->ray.side_x = (game->player.pos_x - game->ray.map_x) * game->ray.delta_x;
+		game->ray.side_x = (game->player.pos_x - game->ray.map_x)
+			* game->ray.delta_x;
 	}
 	else
 	{
@@ -77,7 +77,8 @@ void init_step_and_side(t_cub *game)
 	if (game->ray.ray_y < 0)
 	{
 		game->ray.step_y = -1;
-		game->ray.side_y = (game->player.pos_y - game->ray.map_y) * game->ray.delta_y;
+		game->ray.side_y = (game->player.pos_y - game->ray.map_y)
+			* game->ray.delta_y;
 	}
 	else
 	{

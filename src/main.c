@@ -6,7 +6,7 @@
 /*   By: bguhty <bguhty@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/29 15:18:40 by dabdulla          #+#    #+#             */
-/*   Updated: 2026/11/11 15:16:35 by bguhty           ###   ########.fr       */
+/*   Updated: 2026/11/11 15:48:02 by dabdulla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 
 t_map	*map_parsing(int args, char **argv)
 {
-	int		exit_code;
-	t_map	*game_board;
-	char	**read_file;
-	const char *file_name;
-	
+	int			exit_code;
+	t_map		*game_board;
+	char		**read_file;
+	const char	*file_name;
+
 	file_name = "cub_test.txt";
 	(void)argv;
 	exit_code = 0;
@@ -99,12 +99,13 @@ static int	render_loop(t_cub *game)
 	return (0);
 }
 
-int init_mlx(t_cub *game)
+int	init_mlx(t_cub *game)
 {
 	game->mlx.mlx_ptr = mlx_init();
 	if (!game->mlx.mlx_ptr)
 		return (0);
-	game->mlx.win_ptr = mlx_new_window(game->mlx.mlx_ptr, WIDTH, HEIGHT, "cub3d");
+	game->mlx.win_ptr = mlx_new_window(game->mlx.mlx_ptr, WIDTH, HEIGHT,
+			"cub3d");
 	if (!game->mlx.win_ptr)
 		return (0);
 	game->mlx.img_ptr = mlx_new_image(game->mlx.mlx_ptr, WIDTH, HEIGHT);
@@ -125,9 +126,6 @@ int	main(int args, char **argv)
 	game.map = map_parsing(args, argv);
 	if (!game.map)
 		return (1);
-	else
-		t_map_clean_up(game.map);
-	return (0);
 	print_player_position(game.map, &game.player);
 	game.mlx.mlx_ptr = mlx_init();
 	if (!game.mlx.mlx_ptr)

@@ -6,7 +6,7 @@
 /*   By: bguhty <bguhty@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/23 19:09:53 by dabdulla          #+#    #+#             */
-/*   Updated: 2026/10/08 21:34:27 by bguhty           ###   ########.fr       */
+/*   Updated: 2026/11/11 15:35:48 by dabdulla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,25 +92,4 @@ char	*ft_substr_gnl(char const *s, unsigned int start, size_t len)
 	}
 	str[len] = '\0';
 	return (str);
-}
-
-char	*free_and_null(char **s, int *exit_code)
-{
-	if (*s)
-	{
-		free(*s);
-		*s = NULL;
-	}
-	*exit_code = 1;
-	return (NULL);
-}
-
-char	*valid_free_and_null(char **s)
-{
-	if (*s)
-	{
-		free(*s);
-		*s = NULL;
-	}
-	return (NULL);
 }

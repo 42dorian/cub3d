@@ -31,6 +31,6 @@ char	*ft_strjoin_gnl(char *s1, char *s2);
 char	*ft_strdup_gnl(char *src);
 int		ft_strlen_gnl(const char *s);
 char	*valid_free_and_null(char **s);
-
+void	assign_exitcode(int *exit_code, int code);
 
 #endif

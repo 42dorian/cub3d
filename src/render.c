@@ -71,11 +71,9 @@ static void	draw_column(t_cub *game, int x)
 		put_pixel(&game->mlx, y++, x, get_color(game->map->floor));
 }
 
-
-
 void	render_frame(t_cub *game)
 {
-	int			x;
+	int	x;
 
 	x = 0;
 	while (x < WIDTH)

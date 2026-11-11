@@ -6,7 +6,7 @@
 /*   By: bguhty <bguhty@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/10 13:20:23 by bguhty            #+#    #+#             */
-/*   Updated: 2026/11/11 12:33:37 by bguhty           ###   ########.fr       */
+/*   Updated: 2026/11/11 15:58:23 by dabdulla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,10 +72,10 @@ int	get_first_index_of_map(char **read_file)
 			biggest_index = find_index_of(read_file, texture_set[i]);
 		i++;
 	}
-    biggest_index++;
-    while (!read_file[biggest_index][0])
+	biggest_index++;
+	while (!read_file[biggest_index][0])
 	{
-        biggest_index++;
+		biggest_index++;
 	}
 	free(texture_set);
 	return (biggest_index);

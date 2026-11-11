@@ -54,10 +54,10 @@ typedef struct s_tex	t_tex;
 
 typedef struct s_map
 {
-	char				*SO;
-	char				*EA;
-	char				*NO;
-	char				*WE;
+	char				*so;
+	char				*ea;
+	char				*no;
+	char				*we;
 	int					*ceiling;
 	int					*floor;
 	char				**map;
@@ -154,9 +154,10 @@ int						map_is_valid(char **map, int *exit_code);
 void					clean_up_2d(char **split_line);
 int						*get_colour(char *line);
 char					*get_texture(char *line);
-int						allocate_colours_and_split_line(int **colours, char ***split_line,
-						char *line);
-int 					add_colours_to_array(int *colours, char **split_colours);
+int						allocate_colours_and_split_line(int **colours,
+							char ***split_line, char *line);
+int						add_colours_to_array(int *colours,
+							char **split_colours);
 char					*get_direction(char **read_file, const char *direction);
 int						matching_names(char *current_line, char *direction);
 int						get_last_index_of_map(char **read_file);
@@ -165,10 +166,11 @@ void					print_missing_level_id(const char id);
 void					print_missing_texture_pack(char *level);
 void					print_multiple_texture_packs(char *level);
 void					print_missing_id_error(const char *id);
-void    				print_colour_code_error();
+void					print_colour_code_error(void);
 void					t_map_clean_up(t_map *game_board);
 void					find_player(t_map *map, t_player *player);
-void					init_player(t_player *player, int row, int column, char pos);
+void					init_player(t_player *player, int row, int column,
+							char pos);
 void					move_sideways(t_cub *game, int keycode);
 void					move_forward(t_cub *game, int keycode);
 int						key_down(int keycode, t_cub *game);
@@ -180,11 +182,10 @@ int						get_texture_color(t_tex *t, int tex_x, int tex_y);
 int						load_images(t_cub *g);
 int						free_texture_paths(t_map *map_struct);
 void					clean_game(t_cub *game);
-void	put_pixel(t_mlx *mlx, int row, int col, int color);
-void	put_color(t_mlx *mlx);
-void init_rays(t_cub *game, int x);
-void init_step_and_side(t_cub *game);
-
+void					put_pixel(t_mlx *mlx, int row, int col, int color);
+void					put_color(t_mlx *mlx);
+void					init_rays(t_cub *game, int x);
+void					init_step_and_side(t_cub *game);
 
 int						is_player(char letter);
 int						is_null_terminator(char letter);

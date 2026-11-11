@@ -17,7 +17,7 @@ SOURCE =	src/valid_map_checker.c \
 			src/one_line_helpers.c \
 			src/one_line_helpers_2.c \
 			src/player_validity.c \
-			src/set_directions.c 
+			src/set_directions.c
 
 CFLAGS = -Wall -Wextra -Werror -g
 #we need to remove one of these in the future, either includes or mlx_flags
@@ -30,7 +30,8 @@ LIBFT_DIR = include/libft
 GNL_DIR = include/get_next_line
 
 GNL_SRC = include/get_next_line/get_next_line.c \
-			include/get_next_line/get_next_line_utils.c
+			include/get_next_line/get_next_line_utils.c \
+			include/get_next_line/gnl_helpers.c
 GNL_OBJ = $(GNL_SRC:.c=.o)
 
 LIBFT = $(LIBFT_DIR)/libft.a
