@@ -6,7 +6,7 @@
 /*   By: bguhty <bguhty@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/07 15:06:16 by bguhty            #+#    #+#             */
-/*   Updated: 2026/11/11 15:15:28 by bguhty           ###   ########.fr       */
+/*   Updated: 2026/11/12 18:20:49 by bguhty           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,11 @@ char	**parsing_from_file(const char *file)
         write(2, "Error\nWrong file\n", 17);
         return (NULL);
     }
+	if (len == 0)
+	{
+		write(2, "Error\nEmpty file!\n", 18);
+		return (NULL);
+	}
 	lines = ft_calloc(sizeof(char *), len + 1);
 	if (!lines)
 		return (NULL);
@@ -77,6 +82,22 @@ char	*create_white_space_set(void)
 	return (set);
 }
 
+int	get_valid_lines(char **read_file)
+{
+	int valid_lines;
+	int i;
+
+	i = 0;
+	valid_lines = 0;
+	while (read_file[i])
+	{
+		if (ft_strncmp(read_file[i], "", 1))
+			valid_lines++;
+		i++;
+	}
+	return (valid_lines);
+}
+
 int	trim_the_read_file(char **read_file)
 {
 	int		i;
@@ -99,6 +120,8 @@ int	trim_the_read_file(char **read_file)
 		i++;
 	}
 	free(set);
+	if (get_valid_lines(read_file) < 7)
+		return (clean_up_2d(read_file), write(2, "Error\nNot enough info specified in file!\n", 41), 0);
 	return (1);
 }
 
@@ -133,7 +156,7 @@ char	*normal_copy(char *original)
 int	matching_names(char *current_line, char *direction)
 {
 	if (!ft_strncmp(current_line, direction, 2)
-		&& is_white_space(current_line[2]))
+		&& is_end(current_line[2]))
 		return (1);
 	return (0);
 }
@@ -199,7 +222,7 @@ int	allocate_colours_and_split_line(int **colours, char ***split_line,
 
 int	matching_levels(char *current_line, const char letter)
 {
-	if (current_line[0] == letter && is_white_space(current_line[1]))
+	if (current_line[0] == letter && is_end(current_line[1]))
 		return (1);
 	return (0);
 }
@@ -305,7 +328,7 @@ t_map	*creating_t_cub_struct(char **read_file)
 		return (t_map_clean_up(map_struct), NULL);
     if (!is_valid_input(read_file))
 		return (t_map_clean_up(map_struct), NULL);
-    read_file = trim_empty_lines(read_file);
+	read_file = trim_empty_lines(read_file);
 	if (!read_file)
 		return (t_map_clean_up(map_struct), NULL);
 	if (!get_struct_values(map_struct, read_file))

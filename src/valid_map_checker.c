@@ -6,7 +6,7 @@
 /*   By: bguhty <bguhty@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/07 10:23:12 by bguhty            #+#    #+#             */
-/*   Updated: 2026/11/11 12:32:30 by bguhty           ###   ########.fr       */
+/*   Updated: 2026/11/12 17:43:11 by bguhty           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int	map_is_valid(char **map, int *exit_code)
 		return (0);
 	if (!flood_fill(fake_map, y, x))
 	{
-		*exit_code = 4;
+		*exit_code = 3;
 		clean_up_2d(fake_map);
 		print_invalid_map_message(*exit_code);
 		return (0);

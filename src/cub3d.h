@@ -6,7 +6,7 @@
 /*   By: bguhty <bguhty@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/29 15:18:34 by dabdulla          #+#    #+#             */
-/*   Updated: 2026/11/11 15:16:06 by bguhty           ###   ########.fr       */
+/*   Updated: 2026/11/12 16:56:03 by bguhty           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,6 +182,7 @@ int						is_player(char letter);
 int						is_null_terminator(char letter);
 int						is_white_space(char letter);
 int						is_wall(char letter);
+int						is_end(char letter);
 int						get_map_len_from_file(char **read_file);
 int						get_y_of_start(char **map);
 int						get_x_of_start(char **map);
@@ -193,5 +194,7 @@ void					set_east(t_player *player);
 void					set_west(t_player *player);
 void					set_south(t_player *player);
 void					set_north(t_player *player);
+void 					clean_game(t_cub *game);
+int						get_valid_lines(char **read_file);
 
 #endif

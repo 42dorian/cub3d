@@ -6,7 +6,7 @@
 /*   By: bguhty <bguhty@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/10 13:12:08 by bguhty            #+#    #+#             */
-/*   Updated: 2026/11/10 23:36:33 by bguhty           ###   ########.fr       */
+/*   Updated: 2026/11/12 17:43:32 by bguhty           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	player_check(char **map, int *exit_code)
 	}
 	if (!news)
 	{
-		*exit_code = 5;
+		*exit_code = 4;
 		return (0);
 	}
 	return (1);
