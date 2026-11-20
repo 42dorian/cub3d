@@ -6,7 +6,7 @@
 /*   By: bguhty <bguhty@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/07 10:23:12 by bguhty            #+#    #+#             */
-/*   Updated: 2026/11/12 17:43:11 by bguhty           ###   ########.fr       */
+/*   Updated: 2026/11/20 19:26:14 by dabdulla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,22 +30,6 @@ int	last_wall_index(char *curr_line)
 	while (is_white_space(curr_line[i]))
 		i--;
 	return (i);
-}
-
-int	is_line_valid(char *line)
-{
-	int	start;
-	int	end;
-
-	start = first_wall_index(line);
-	end = last_wall_index(line);
-	while (start < end)
-	{
-		if (line[start] != '1')
-			return (0);
-		start++;
-	}
-	return (1);
 }
 
 int	map_is_valid(char **map, int *exit_code)
@@ -92,4 +76,27 @@ void	convert_spaces_to_zeroes(char **map)
 		}
 		i++;
 	}
+}
+
+int	flood_fill(char **map, int y, int x)
+{
+	int	height;
+
+	height = get_2d_len(map);
+	if (y < 0 || y >= height)
+		return (0);
+	if (x > ft_strlen(map[y]) || x < 0 || !map[y][x])
+		return (0);
+	if (is_safe_spot(map[y][x]))
+		return (1);
+	map[y][x] = 1;
+	if (!flood_fill(map, y - 1, x))
+		return (0);
+	if (!flood_fill(map, y + 1, x))
+		return (0);
+	if (!flood_fill(map, y, x - 1))
+		return (0);
+	if (!flood_fill(map, y, x + 1))
+		return (0);
+	return (1);
 }

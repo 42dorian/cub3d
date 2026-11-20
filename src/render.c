@@ -12,8 +12,6 @@
 
 #include "cub3d.h"
 
-static void	draw_column(t_cub *game, int x);
-
 void	put_pixel(t_mlx *mlx, int row, int col, int color)
 {
 	char	*dst;

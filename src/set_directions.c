@@ -6,7 +6,7 @@
 /*   By: bguhty <bguhty@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/10 13:18:39 by bguhty            #+#    #+#             */
-/*   Updated: 2026/11/11 16:12:05 by dabdulla         ###   ########.fr       */
+/*   Updated: 2026/11/20 19:17:25 by dabdulla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,27 +56,4 @@ void	init_player(t_player *player, int row, int column, char pos)
 		set_east(player);
 	if (pos == 'W')
 		set_west(player);
-}
-
-void	find_player(t_map *map, t_player *player)
-{
-	int	row;
-	int	column;
-
-	row = 0;
-	column = 0;
-	while (map->map[row])
-	{
-		column = 0;
-		while (map->map[row][column])
-		{
-			if (is_player(map->map[row][column]))
-			{
-				init_player(player, row, column, map->map[row][column]);
-				return ;
-			}
-			column++;
-		}
-		row++;
-	}
 }

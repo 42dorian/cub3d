@@ -6,18 +6,11 @@
 /*   By: bguhty <bguhty@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/10 12:39:20 by bguhty            #+#    #+#             */
-/*   Updated: 2026/11/10 13:16:04 by bguhty           ###   ########.fr       */
+/*   Updated: 2026/11/20 19:24:19 by dabdulla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-
-int	is_wall(char letter)
-{
-	if (letter == '1')
-		return (1);
-	return (0);
-}
 
 int	is_player(char letter)
 {
@@ -33,9 +26,20 @@ int	is_white_space(char letter)
 	return (0);
 }
 
-int	is_null_terminator(char letter)
+char	*create_white_space_set(void)
 {
-	if (letter == NULL_TERMINATOR)
-		return (1);
-	return (0);
+	int		counter;
+	int		set_index;
+	char	*set;
+
+	counter = BACKSPACE;
+	set_index = 0;
+	set = ft_calloc(sizeof(char), 8);
+	if (!set)
+		return (NULL);
+	while (counter <= CARRIAGE_RET)
+		set[set_index++] = counter++;
+	set[set_index++] = SPACE;
+	set[set_index] = NULL_TERMINATOR;
+	return (set);
 }

@@ -6,7 +6,7 @@
 /*   By: bguhty <bguhty@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/10 12:32:51 by bguhty            #+#    #+#             */
-/*   Updated: 2026/11/12 17:43:21 by bguhty           ###   ########.fr       */
+/*   Updated: 2026/11/20 19:16:50 by dabdulla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,19 +37,6 @@ void	print_colour_code_error(void)
 {
 	write(2, "Error\nAll colours' codes must be", 32);
 	write(2, " in the following range: 0-255\n", 31);
-}
-
-void	print_invalid_map_message(int exit_code)
-{
-	if (exit_code == 1)
-		write(2, "Error\nMultiple starting positions!\n", 35);
-	else if (exit_code == 2)
-		write(2, "Error\nInvalid character on the map!\n", 36);
-	else if (exit_code == 3)
-		write(2, "Error\nThe island is not completely surrounded by walls!\n",
-			56);
-	else if (exit_code == 4)
-		write(2, "Error\nNo starting position spcified!\n", 37);
 }
 
 void	print_missing_level_id(const char id)

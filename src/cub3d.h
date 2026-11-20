@@ -13,13 +13,9 @@
 #ifndef CUB3D_H
 # define CUB3D_H
 # define E 69
-# define B 65
-# define C 66
-# define U 85
 # define N 78
 # define S 83
 # define W 87
-# define DOT 46
 # define ZERO 48
 # define COMMA 44
 # define ONE 49
@@ -45,7 +41,6 @@
 # include <fcntl.h>
 # include <math.h>
 # include <mlx.h>
-# include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
 
@@ -140,7 +135,6 @@ typedef struct s_cub
 int						is_white_space(char letter);
 void					convert_spaces_to_zeroes(char **map);
 int						player_check(char **map, int *exit_code);
-int						is_null_terminator(char letter);
 t_map					*creating_t_cub_struct(char **read_file);
 char					**parsing_from_file(const char *file);
 char					*normal_copy(char *original);
@@ -187,18 +181,13 @@ t_tex					*tex_selector(t_cub *game);
 int						get_tex_x(t_cub *game, t_tex *t);
 int						get_texture_color(t_tex *t, int tex_x, int tex_y);
 int						load_images(t_cub *g);
-int						free_texture_paths(t_map *map_struct);
 void					clean_game(t_cub *game);
 void					put_pixel(t_mlx *mlx, int row, int col, int color);
-void					put_color(t_mlx *mlx);
 void					init_rays(t_cub *game, int x);
 void					init_step_and_side(t_cub *game);
 void					dda_loop(t_cub *game);
 int						render_loop(t_cub *game);
 int						is_player(char letter);
-int						is_null_terminator(char letter);
-int						is_white_space(char letter);
-int						is_wall(char letter);
 int						is_end(char letter);
 int						get_map_len_from_file(char **read_file);
 int						get_y_of_start(char **map);
@@ -212,5 +201,12 @@ void					set_west(t_player *player);
 void					set_south(t_player *player);
 void					set_north(t_player *player);
 int						get_valid_lines(char **read_file);
-
+int						find_index_of(char **read_file, const char *word);
+int						is_in_texture_set(char *line, const char **texture_set);
+int						compare_until_end(const char *s1, const char *s2);
+const char				**create_texture_set(void);
+char					*create_white_space_set(void);
+int						get_trimmed_len(char **read_file);
+int						trim_the_read_file(char **read_file);
+char					**trim_empty_lines(char **read_file);
 #endif

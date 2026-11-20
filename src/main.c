@@ -6,18 +6,42 @@
 /*   By: bguhty <bguhty@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/29 15:18:40 by dabdulla          #+#    #+#             */
-/*   Updated: 2026/11/20 18:58:06 by dabdulla         ###   ########.fr       */
+/*   Updated: 2026/11/20 19:43:37 by dabdulla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-int		valid_file_type(char *file_name)
+void	find_player(t_map *map, t_player *player)
 {
-	int len;
+	int	row;
+	int	column;
+
+	row = 0;
+	column = 0;
+	while (map->map[row])
+	{
+		column = 0;
+		while (map->map[row][column])
+		{
+			if (is_player(map->map[row][column]))
+			{
+				init_player(player, row, column, map->map[row][column]);
+				return ;
+			}
+			column++;
+		}
+		row++;
+	}
+}
+
+int	valid_file_type(char *file_name)
+{
+	int	len;
 
 	len = ft_strlen(file_name);
-	if (file_name[len - 1] != B && file_name[len - 2] != U && file_name[len - 3] != C && file_name[len - 4] != DOT)
+	if (len <= 4 || file_name[len - 5] == '/' || ft_strncmp(file_name + len - 4,
+			".cub", 4))
 		return (0);
 	return (1);
 }

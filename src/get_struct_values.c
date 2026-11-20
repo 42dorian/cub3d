@@ -6,7 +6,7 @@
 /*   By: bguhty <bguhty@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/10 12:29:08 by bguhty            #+#    #+#             */
-/*   Updated: 2026/11/11 15:59:07 by dabdulla         ###   ########.fr       */
+/*   Updated: 2026/11/20 19:18:16 by dabdulla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,7 @@ int	only_3_rgb_codes(char **split_colours, char **split_line, int *colours)
 		}
 		else
 		{
-			write(2, "Error\nrgb code has more than 3 units ", 37);
-			write(2, "for ", 4);
+			ft_putstr_fd("Error\nrgb code has more than 3 units for ", 2);
 			ft_putchar_fd(id, 2);
 			write(2, " identifier!\n", 13);
 		}
@@ -83,32 +82,6 @@ int	only_3_rgb_codes(char **split_colours, char **split_line, int *colours)
 		return (0);
 	}
 	return (1);
-}
-
-int	only_2_splitted(char **split_line, int *colours)
-{
-	int	len;
-
-	len = get_2d_len(split_line);
-	if (len != 2)
-	{
-		if (len < 2)
-		{
-			write(2, "Error\nMissing rgb code for ", 27);
-			write(2, split_line[0], 1);
-			write(2, " identifier!\n", 13);
-		}
-		else
-		{
-			write(2, "Error\nToo many rgb codes for ", 29);
-			write(2, split_line[0], 1);
-			write(2, " identifier!\n", 13);
-		}
-		clean_up_2d(split_line);
-		free(colours);
-		return (1);
-	}
-	return (0);
 }
 
 int	*get_colour(char *line)
@@ -121,8 +94,6 @@ int	*get_colour(char *line)
 	split_line = NULL;
 	if (!allocate_colours_and_split_line(&colours, &split_line, line))
 		return (NULL);
-	// if (!only_2_splitted(split_line, colours))
-	// 	return (NULL);
 	split_colours = ft_split(split_line[1], COMMA);
 	if (!split_colours)
 		return (clean_up_2d(split_line), free(colours), NULL);
@@ -147,29 +118,4 @@ char	*get_direction(char **read_file, const char *direction)
 		i++;
 	}
 	return (ft_strdup(""));
-}
-
-char	*get_texture(char *line)
-{
-	char	*texture_path;
-	char	**split_line;
-
-	split_line = ft_split(line, SPACE);
-	if (!split_line)
-		return (NULL);
-	if (get_2d_len(split_line) == 1)
-	{
-		print_missing_texture_pack(split_line[0]);
-		clean_up_2d(split_line);
-		return (NULL);
-	}
-	else if (get_2d_len(split_line) > 2)
-	{
-		print_multiple_texture_packs(split_line[0]);
-		clean_up_2d(split_line);
-		return (NULL);
-	}
-	texture_path = normal_copy(split_line[1]);
-	clean_up_2d(split_line);
-	return (texture_path);
 }

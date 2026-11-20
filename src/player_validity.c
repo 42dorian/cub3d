@@ -6,7 +6,7 @@
 /*   By: bguhty <bguhty@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/10 13:12:08 by bguhty            #+#    #+#             */
-/*   Updated: 2026/11/12 17:43:32 by bguhty           ###   ########.fr       */
+/*   Updated: 2026/11/20 19:16:54 by dabdulla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,4 +100,17 @@ int	get_y_of_start(char **map)
 		i++;
 	}
 	return (-1);
+}
+
+void	print_invalid_map_message(int exit_code)
+{
+	if (exit_code == 1)
+		write(2, "Error\nMultiple starting positions!\n", 35);
+	else if (exit_code == 2)
+		write(2, "Error\nInvalid character on the map!\n", 36);
+	else if (exit_code == 3)
+		write(2, "Error\nThe island is not completely surrounded by walls!\n",
+			56);
+	else if (exit_code == 4)
+		write(2, "Error\nNo starting position spcified!\n", 37);
 }
