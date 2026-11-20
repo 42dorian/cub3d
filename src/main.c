@@ -6,7 +6,7 @@
 /*   By: bguhty <bguhty@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/29 15:18:40 by dabdulla          #+#    #+#             */
-/*   Updated: 2026/11/20 15:24:34 by bguhty           ###   ########.fr       */
+/*   Updated: 2026/11/20 18:58:06 by dabdulla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ t_map	*map_parsing(int args, char **argv)
 	int		exit_code;
 	t_map	*game_board;
 	char	**read_file;
-	
+
 	exit_code = 0;
 	if (args == 1)
 		return (ft_putendl_fd("Error\nNo map spcified!", 2), NULL);
@@ -54,28 +54,10 @@ int	main(int args, char **argv)
 	game.map = map_parsing(args, argv);
 	if (!game.map)
 		return (1);
-	// print_player_position(game.map, &game.player);
-	game.mlx.mlx_ptr = mlx_init();
-	if (!game.mlx.mlx_ptr)
-		return (1);
-	game.mlx.win_ptr = mlx_new_window(game.mlx.mlx_ptr, WIDTH, HEIGHT, "cub3d");
-	if (!game.mlx.win_ptr)
-		return (1);
-	game.mlx.img_ptr = mlx_new_image(game.mlx.mlx_ptr, WIDTH, HEIGHT);
-	if (!game.mlx.img_ptr)
-		return (1);
-	game.mlx.addr = mlx_get_data_addr(game.mlx.img_ptr, &game.mlx.bpp,
-			&game.mlx.line_len, &game.mlx.endian);
-	if (!game.mlx.addr)
-		return (1);
-	if (!load_images(&game))
-		return (1);
-	mlx_loop_hook(game.mlx.mlx_ptr, render_loop, &game);
-	mlx_hook(game.mlx.win_ptr, 2, 1L << 0, key_down, &game);
-	mlx_hook(game.mlx.win_ptr, 3, 1L << 1, key_up, &game);
-	mlx_hook(game.mlx.win_ptr, 17, 0, mlx_loop_end, game.mlx.mlx_ptr);
-	mlx_do_key_autorepeatoff(game.mlx.mlx_ptr);
-	mlx_loop(game.mlx.mlx_ptr);
+	find_player(game.map, &game.player);
+	if (!init_mlx(&game))
+		return (clean_game(&game), 1);
+	mlx_hooks(&game);
 	clean_game(&game);
 	return (0);
 }

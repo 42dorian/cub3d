@@ -6,7 +6,7 @@
 /*   By: dabdulla <dabdulla@student.42vienna.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/11 16:06:39 by dabdulla          #+#    #+#             */
-/*   Updated: 2026/11/11 16:41:04 by dabdulla         ###   ########.fr       */
+/*   Updated: 2026/11/12 16:05:33 by dabdulla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,18 +16,20 @@ int	init_mlx(t_cub *game)
 {
 	game->mlx.mlx_ptr = mlx_init();
 	if (!game->mlx.mlx_ptr)
-		return (0);
+		return (ft_putendl_fd("Error\nFailed to initialize MLX!", 2), 0);
+	if (!load_images(game))
+		return (ft_putendl_fd("Error\nFailed to load textures!", 2), 0);
 	game->mlx.win_ptr = mlx_new_window(game->mlx.mlx_ptr, WIDTH, HEIGHT,
 			"cub3d");
 	if (!game->mlx.win_ptr)
-		return (0);
+		return (ft_putendl_fd("Error\nFailed to initialize MLX!", 2), 0);
 	game->mlx.img_ptr = mlx_new_image(game->mlx.mlx_ptr, WIDTH, HEIGHT);
 	if (!game->mlx.img_ptr)
-		return (0);
+		return (ft_putendl_fd("Error\nFailed to initialize MLX!", 2), 0);
 	game->mlx.addr = mlx_get_data_addr(game->mlx.img_ptr, &game->mlx.bpp,
 			&game->mlx.line_len, &game->mlx.endian);
 	if (!game->mlx.addr)
-		return (0);
+		return (ft_putendl_fd("Error\nFailed to initialize MLX!", 2), 0);
 	return (1);
 }
 
