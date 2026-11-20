@@ -6,7 +6,7 @@
 /*   By: bguhty <bguhty@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/10 13:20:23 by bguhty            #+#    #+#             */
-/*   Updated: 2026/11/12 18:23:31 by bguhty           ###   ########.fr       */
+/*   Updated: 2026/11/18 13:11:05 by bguhty           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,8 @@ int	compare_until_end(const char *s1, const char *s2)
 
 	str1 = (unsigned char *)s1;
 	str2 = (unsigned char *)s2;
+	if (!str1 && str2)
+		return (1);
 	while ((str1[i] != '\0' && !is_end(str2[i])))
 	{
 		if (str1[i] != str2[i])

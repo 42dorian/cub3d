@@ -16,7 +16,7 @@ SOURCE =	src/valid_map_checker.c \
 			src/one_line_helpers.c \
 			src/one_line_helpers_2.c \
 			src/player_validity.c \
-			src/set_directions.c 
+			src/set_directions.c \
 
 CFLAGS = -Wall -Wextra -Werror -g
 #we need to remove one of these in the future, either includes or mlx_flags

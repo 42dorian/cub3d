@@ -6,16 +6,20 @@
 /*   By: bguhty <bguhty@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/29 15:18:34 by dabdulla          #+#    #+#             */
-/*   Updated: 2026/11/12 16:56:03 by bguhty           ###   ########.fr       */
+/*   Updated: 2026/11/18 13:17:15 by bguhty           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB3D_H
 # define CUB3D_H
 # define E 69
+# define B 65
+# define C 66
+# define U 85
 # define N 78
 # define S 83
 # define W 87
+# define DOT 46
 # define ZERO 48
 # define COMMA 44
 # define ONE 49

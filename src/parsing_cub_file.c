@@ -6,7 +6,7 @@
 /*   By: bguhty <bguhty@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/07 15:06:16 by bguhty            #+#    #+#             */
-/*   Updated: 2026/11/12 18:20:49 by bguhty           ###   ########.fr       */
+/*   Updated: 2026/11/18 13:03:05 by bguhty           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -362,7 +362,7 @@ int	flood_fill(char **map, int y, int x)
 	int	height;
 
 	height = get_2d_len(map);
-	if (y < 0 || y > height)
+	if (y < 0 || y >= height)
 		return (0);
 	if (x > ft_strlen(map[y]) || x < 0 || !map[y][x])
 		return (0);

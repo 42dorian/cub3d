@@ -6,7 +6,7 @@
 /*   By: bguhty <bguhty@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 17:40:18 by dabdulla          #+#    #+#             */
-/*   Updated: 2026/11/09 11:18:30 by bguhty           ###   ########.fr       */
+/*   Updated: 2026/11/18 12:59:27 by bguhty           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,10 @@ int	ft_atoi(const char *nptr)
 		return (-1);
 	else if (nptr[i] == '+')
 		i++;
-	while (nptr[i] >= '0' && nptr[i] <= '9')
+	while (nptr[i])
 	{
+		if (!(nptr[i] >= '0' && nptr[i] <= '9'))
+			return (-2);
 		value = value * 10 + nptr[i] - 48;
 		if (value > 255)
 			return (-1);

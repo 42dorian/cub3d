@@ -6,27 +6,36 @@
 /*   By: bguhty <bguhty@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/29 15:18:40 by dabdulla          #+#    #+#             */
-/*   Updated: 2026/11/11 15:16:35 by bguhty           ###   ########.fr       */
+/*   Updated: 2026/11/18 13:17:33 by bguhty           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+
+int		valid_file_type(char *file_name)
+{
+	int len;
+
+	len = ft_strlen(file_name);
+	if (file_name[len - 1] != B && file_name[len - 2] != U && file_name[len - 3] != C && file_name[len - 4] != DOT)
+		return (0);
+	return (1);
+}
 
 t_map	*map_parsing(int args, char **argv)
 {
 	int		exit_code;
 	t_map	*game_board;
 	char	**read_file;
-	const char *file_name;
 	
-	file_name = "cub_test.txt";
-	(void)argv;
 	exit_code = 0;
 	if (args == 1)
 		return (ft_putendl_fd("Error\nNo map spcified!", 2), NULL);
 	if (args > 2)
 		return (ft_putendl_fd("Error\nMultiple maps specified!", 2), NULL);
-	read_file = parsing_from_file(file_name);
+	if (!valid_file_type(argv[1]))
+		return (ft_putendl_fd("Error\nInvalid file type!", 2), NULL);
+	read_file = parsing_from_file(argv[1]);
 	if (!read_file)
 		return (NULL);
 	game_board = creating_t_cub_struct(read_file);
@@ -125,9 +134,6 @@ int	main(int args, char **argv)
 	game.map = map_parsing(args, argv);
 	if (!game.map)
 		return (1);
-	else
-		t_map_clean_up(game.map);
-	return (0);
 	print_player_position(game.map, &game.player);
 	game.mlx.mlx_ptr = mlx_init();
 	if (!game.mlx.mlx_ptr)
