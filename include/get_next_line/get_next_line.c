@@ -6,7 +6,7 @@
 /*   By: bguhty <bguhty@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/23 19:09:55 by dabdulla          #+#    #+#             */
-/*   Updated: 2026/11/09 12:11:32 by bguhty           ###   ########.fr       */
+/*   Updated: 2026/11/11 15:39:47 by dabdulla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,18 +62,12 @@ char	*read_loop(int fd, char *file, int *exit_code)
 
 	buffer = malloc(BUFFER_SIZE + 1);
 	if (!buffer)
-	{
-		*exit_code = 1;
-		return (free_and_null(&file, &r));
-	}
+		return (assign_exitcode(exit_code, 1), free_and_null(&file, &r));
 	if (!file)
 	{
 		file = malloc(1);
 		if (!file)
-		{
-			*exit_code = 1;
-			return (free_and_null(&buffer, &r));
-		}
+			return (assign_exitcode(exit_code, 1), free_and_null(&buffer, &r));
 		file[0] = '\0';
 	}
 	r = 1;
@@ -114,6 +108,7 @@ char	*get_next_line(int fd, int *exit_code)
 	file = ft_strdup_gnl(str);
 	valid_free_and_null(&str);
 	if (!file)
-		return (free_and_null(&file, exit_code), free_and_null(&tmp, exit_code));
+		return (free_and_null(&file, exit_code), free_and_null(&tmp,
+				exit_code));
 	return (tmp);
 }

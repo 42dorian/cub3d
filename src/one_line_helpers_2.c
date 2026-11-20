@@ -18,6 +18,7 @@ int	is_safe_spot(char letter)
 		return (1);
 	return (0);
 }
+<<<<<<< HEAD
 
 int	is_end(char letter)
 {
@@ -25,3 +26,5 @@ int	is_end(char letter)
 		return (1);
 	return (0);
 }
+=======
+>>>>>>> 73dea8cff245de9ec6ebfb47c1d09d245aa5b7dc

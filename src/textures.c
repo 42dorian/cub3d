@@ -6,7 +6,7 @@
 /*   By: dabdulla <dabdulla@student.42vienna.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/08 20:29:23 by dabdulla          #+#    #+#             */
-/*   Updated: 2026/11/08 21:25:17 by dabdulla         ###   ########.fr       */
+/*   Updated: 2026/11/11 15:59:07 by dabdulla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,13 @@ int	load_image(t_cub *game, t_tex *t, char *p)
 
 int	load_images(t_cub *g)
 {
-	if (!load_image(g, &g->tex[0], g->map->NO))
+	if (!load_image(g, &g->tex[0], g->map->no))
 		return (0);
-	if (!load_image(g, &g->tex[1], g->map->SO))
+	if (!load_image(g, &g->tex[1], g->map->so))
 		return (0);
-	if (!load_image(g, &g->tex[2], g->map->WE))
+	if (!load_image(g, &g->tex[2], g->map->we))
 		return (0);
-	if (!load_image(g, &g->tex[3], g->map->EA))
+	if (!load_image(g, &g->tex[3], g->map->ea))
 		return (0);
 	return (1);
 }

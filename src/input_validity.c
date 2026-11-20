@@ -6,7 +6,11 @@
 /*   By: bguhty <bguhty@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/10 13:20:23 by bguhty            #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2026/11/18 13:11:05 by bguhty           ###   ########.fr       */
+=======
+/*   Updated: 2026/11/11 15:58:23 by dabdulla         ###   ########.fr       */
+>>>>>>> 73dea8cff245de9ec6ebfb47c1d09d245aa5b7dc
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,8 +159,16 @@ int	get_first_index_of_map(char **read_file)
 			biggest_index = find_index_of(read_file, texture_set[i]);
 		i++;
 	}
+<<<<<<< HEAD
 	if (!only_ids(read_file, &biggest_index, texture_set))
 		return (free(texture_set), -1);
+=======
+	biggest_index++;
+	while (!read_file[biggest_index][0])
+	{
+		biggest_index++;
+	}
+>>>>>>> 73dea8cff245de9ec6ebfb47c1d09d245aa5b7dc
 	free(texture_set);
 	return (biggest_index);
 }

@@ -6,7 +6,7 @@
 /*   By: dabdulla <dabdulla@student.42vienna.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/08 14:59:50 by dabdulla          #+#    #+#             */
-/*   Updated: 2026/11/08 15:13:46 by dabdulla         ###   ########.fr       */
+/*   Updated: 2026/11/11 16:31:28 by dabdulla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,4 +46,20 @@ int	key_up(int keycode, t_cub *game)
 	if (keycode == ESC_KEY)
 		mlx_loop_end(game->mlx.mlx_ptr);
 	return (0);
+}
+
+void	key_hook(t_cub *game)
+{
+	if (game->keys.a_key == 1)
+		move_sideways(game, A_KEY);
+	if (game->keys.d_key == 1)
+		move_sideways(game, D_KEY);
+	if (game->keys.w_key == 1)
+		move_forward(game, W_KEY);
+	if (game->keys.s_key == 1)
+		move_forward(game, S_KEY);
+	if (game->keys.left_key == 1)
+		rotate_player(game, LEFT_KEY);
+	if (game->keys.right_key == 1)
+		rotate_player(game, RIGHT_KEY);
 }
