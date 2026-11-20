@@ -6,11 +6,7 @@
 /*   By: bguhty <bguhty@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/29 15:18:40 by dabdulla          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2026/11/18 13:17:33 by bguhty           ###   ########.fr       */
-=======
-/*   Updated: 2026/11/11 16:41:11 by dabdulla         ###   ########.fr       */
->>>>>>> 73dea8cff245de9ec6ebfb47c1d09d245aa5b7dc
+/*   Updated: 2026/11/20 15:24:34 by bguhty           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,20 +24,10 @@ int		valid_file_type(char *file_name)
 
 t_map	*map_parsing(int args, char **argv)
 {
-<<<<<<< HEAD
 	int		exit_code;
 	t_map	*game_board;
 	char	**read_file;
 	
-=======
-	int			exit_code;
-	t_map		*game_board;
-	char		**read_file;
-	const char	*file_name;
-
-	file_name = "cub_test.txt";
-	(void)argv;
->>>>>>> 73dea8cff245de9ec6ebfb47c1d09d245aa5b7dc
 	exit_code = 0;
 	if (args == 1)
 		return (ft_putendl_fd("Error\nNo map spcified!", 2), NULL);
@@ -68,8 +54,7 @@ int	main(int args, char **argv)
 	game.map = map_parsing(args, argv);
 	if (!game.map)
 		return (1);
-<<<<<<< HEAD
-	print_player_position(game.map, &game.player);
+	// print_player_position(game.map, &game.player);
 	game.mlx.mlx_ptr = mlx_init();
 	if (!game.mlx.mlx_ptr)
 		return (1);
@@ -91,12 +76,6 @@ int	main(int args, char **argv)
 	mlx_hook(game.mlx.win_ptr, 17, 0, mlx_loop_end, game.mlx.mlx_ptr);
 	mlx_do_key_autorepeatoff(game.mlx.mlx_ptr);
 	mlx_loop(game.mlx.mlx_ptr);
-=======
-	find_player(game.map, &game.player);
-	if (!init_mlx(&game) || !load_images(&game))
-		return (clean_game(&game), 1);
-	mlx_hooks(&game);
->>>>>>> 73dea8cff245de9ec6ebfb47c1d09d245aa5b7dc
 	clean_game(&game);
 	return (0);
 }

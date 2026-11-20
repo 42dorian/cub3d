@@ -6,11 +6,7 @@
 /*   By: bguhty <bguhty@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/10 12:47:39 by bguhty            #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2026/11/18 12:38:05 by bguhty           ###   ########.fr       */
-=======
-/*   Updated: 2026/11/11 15:59:07 by dabdulla         ###   ########.fr       */
->>>>>>> 73dea8cff245de9ec6ebfb47c1d09d245aa5b7dc
+/*   Updated: 2026/11/20 15:25:05 by bguhty           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,27 +77,27 @@ void	free_map_with_index(char **map, int last, int current)
 	free(map);
 }
 
-void clean_game(t_cub *game)
-{
-	int i;
+// void clean_game(t_cub *game)
+// {
+// 	int i;
 
-	i = 0;
-	while(i < 4)
-	{
-		if (game->mlx.mlx_ptr && game->tex[i].img)
-			mlx_destroy_image(game->mlx.mlx_ptr, game->tex[i].img);
-		i++;
-	}
-	if (game->mlx.mlx_ptr && game->mlx.img_ptr)
-		mlx_destroy_image(game->mlx.mlx_ptr, game->mlx.img_ptr);
-	if (game->mlx.mlx_ptr && game->mlx.win_ptr)
-		mlx_destroy_window(game->mlx.mlx_ptr, game->mlx.win_ptr);
-	if (game->mlx.mlx_ptr)
-	{
-		mlx_do_key_autorepeaton(game->mlx.mlx_ptr);
-		mlx_destroy_display(game->mlx.mlx_ptr);
-	}
-	free(game->mlx.mlx_ptr);
-	if (game->map)
-		t_map_clean_up(game->map);
-}
+// 	i = 0;
+// 	while(i < 4)
+// 	{
+// 		if (game->mlx.mlx_ptr && game->tex[i].img)
+// 			mlx_destroy_image(game->mlx.mlx_ptr, game->tex[i].img);
+// 		i++;
+// 	}
+// 	if (game->mlx.mlx_ptr && game->mlx.img_ptr)
+// 		mlx_destroy_image(game->mlx.mlx_ptr, game->mlx.img_ptr);
+// 	if (game->mlx.mlx_ptr && game->mlx.win_ptr)
+// 		mlx_destroy_window(game->mlx.mlx_ptr, game->mlx.win_ptr);
+// 	if (game->mlx.mlx_ptr)
+// 	{
+// 		mlx_do_key_autorepeaton(game->mlx.mlx_ptr);
+// 		mlx_destroy_display(game->mlx.mlx_ptr);
+// 	}
+// 	free(game->mlx.mlx_ptr);
+// 	if (game->map)
+// 		t_map_clean_up(game->map);
+// }

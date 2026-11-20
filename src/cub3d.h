@@ -6,7 +6,7 @@
 /*   By: bguhty <bguhty@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/29 15:18:34 by dabdulla          #+#    #+#             */
-/*   Updated: 2026/11/18 13:17:15 by bguhty           ###   ########.fr       */
+/*   Updated: 2026/11/20 15:25:09 by bguhty           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -211,7 +211,6 @@ void					set_east(t_player *player);
 void					set_west(t_player *player);
 void					set_south(t_player *player);
 void					set_north(t_player *player);
-void 					clean_game(t_cub *game);
 int						get_valid_lines(char **read_file);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: bguhty <bguhty@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/10 12:41:57 by bguhty            #+#    #+#             */
-/*   Updated: 2026/11/12 16:35:58 by bguhty           ###   ########.fr       */
+/*   Updated: 2026/11/20 15:23:28 by bguhty           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ int	is_safe_spot(char letter)
 		return (1);
 	return (0);
 }
-<<<<<<< HEAD
 
 int	is_end(char letter)
 {
@@ -26,5 +25,3 @@ int	is_end(char letter)
 		return (1);
 	return (0);
 }
-=======
->>>>>>> 73dea8cff245de9ec6ebfb47c1d09d245aa5b7dc

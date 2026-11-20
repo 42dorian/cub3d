@@ -6,11 +6,7 @@
 /*   By: bguhty <bguhty@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/07 15:06:16 by bguhty            #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2026/11/18 13:03:05 by bguhty           ###   ########.fr       */
-=======
-/*   Updated: 2026/11/11 15:59:07 by dabdulla         ###   ########.fr       */
->>>>>>> 73dea8cff245de9ec6ebfb47c1d09d245aa5b7dc
+/*   Updated: 2026/11/20 15:23:40 by bguhty           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +45,6 @@ char	**parsing_from_file(const char *file)
 
 	exit_code = 0;
 	len = get_len_of_file(file, &exit_code);
-<<<<<<< HEAD
     if (len == -1)
     {
         write(2, "Error\nWrong file\n", 17);
@@ -58,11 +53,6 @@ char	**parsing_from_file(const char *file)
 	if (len == 0)
 	{
 		write(2, "Error\nEmpty file!\n", 18);
-=======
-	if (len == -1)
-	{
-		write(2, "Error\nWrong file\n", 17);
->>>>>>> 73dea8cff245de9ec6ebfb47c1d09d245aa5b7dc
 		return (NULL);
 	}
 	lines = ft_calloc(sizeof(char *), len + 1);
