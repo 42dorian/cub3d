@@ -209,4 +209,5 @@ char					*create_white_space_set(void);
 int						get_trimmed_len(char **read_file);
 int						trim_the_read_file(char **read_file);
 char					**trim_empty_lines(char **read_file);
+int						compare_for_texture_set(const char *s1, const char *s2);
 #endif

@@ -64,7 +64,7 @@ int	compare_until_end(const char *s1, const char *s2)
 	i = 0;
 	str1 = (unsigned char *)s1;
 	str2 = (unsigned char *)s2;
-	if (!str1 && str2)
+	if (!*str1 || !*str2)
 		return (1);
 	while ((str1[i] != '\0' && !is_end(str2[i])))
 	{
@@ -84,7 +84,7 @@ int	is_in_texture_set(char *line, const char **texture_set)
 	i = 0;
 	while (texture_set[i])
 	{
-		if (!compare_until_end(texture_set[i], line))
+		if (!compare_for_texture_set(texture_set[i], line))
 			return (1);
 		i++;
 	}

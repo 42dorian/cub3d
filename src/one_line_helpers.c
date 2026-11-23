@@ -43,3 +43,23 @@ char	*create_white_space_set(void)
 	set[set_index] = NULL_TERMINATOR;
 	return (set);
 }
+
+int	compare_for_texture_set(const char *s1, const char *s2)
+{
+	int				i;
+	unsigned char	*str1;
+	unsigned char	*str2;
+
+	i = 0;
+	str1 = (unsigned char *)s1;
+	str2 = (unsigned char *)s2;
+	while ((str1[i] != '\0' && !is_end(str2[i])))
+	{
+		if (str1[i] != str2[i])
+		{
+			return (1);
+		}
+		i++;
+	}
+	return (0);
+}

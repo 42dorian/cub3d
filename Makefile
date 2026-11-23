@@ -1,4 +1,4 @@
-NAME = cub3d
+NAME = cub3D
 
 SOURCE =	src/valid_map_checker.c \
 			src/parsing_cub_file.c \
