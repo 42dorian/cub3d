@@ -53,7 +53,7 @@ int	add_colours_to_array(int *colours, char **split_colours)
 	while (split_colours[i])
 	{
 		colours[i] = ft_atoi(split_colours[i]);
-		if (colours[i] == -1)
+		if (colours[i] == -1 || colours[i] == -2)
 		{
 			print_colour_code_error();
 			free(colours);

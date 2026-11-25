@@ -35,7 +35,7 @@ void	print_multiple_texture_packs(char *level)
 
 void	print_colour_code_error(void)
 {
-	write(2, "Error\nAll colours' codes must be", 32);
+	write(2, "Error\nAll colours codes must be", 32);
 	write(2, " in the following range: 0-255\n", 31);
 }
 
